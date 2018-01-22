@@ -10,3 +10,5 @@
 ### wxpay_and_alipay.js
 	微信支付、阿里支付
 
+### cut_img.js
+	图片裁剪
