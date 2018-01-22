@@ -6,3 +6,7 @@
 
 ### parse_template.js
 	字符串模板、占位替换
+
+### wxpay_and_alipay.js
+	微信支付、阿里支付
+

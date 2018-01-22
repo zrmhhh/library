@@ -1,3 +1,22 @@
+// eg:
+import payServer from '/service/control/pay';
+let payParams = {
+	data: {
+		appId: 'xxx',
+		timeStamp: 'zzz',
+		package: 'asdf'
+	},
+	sign: 'xxxxx'
+};
+payParams.wxPaySucc = this.paySuccess;
+payParams.wxPayFail = this.payFail;
+payParams.wxPayCancel = this.payCancel;
+payParams.aliPaySucc = this.paySuccess;
+payParams.aliPayFail = this.payFail;
+payParams.aliPayCancel = this.payCancel;
+payServer.pay(payParams);
+
+// path: /service/control/pay.js
 export default class Pay {
   static pay (params) {
     if (params.payType === 'WEIXIN') {
