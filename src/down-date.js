@@ -22,5 +22,11 @@ function timeElapse(dateTim){
     seconds = "0" + seconds;
   }
 
-  return days + '天' + hours + '小时' + minutes + '分钟' + seconds + '秒';
+  return {
+    days,
+    hours,
+    minutes,
+    seconds
+  }
+  // return days + '天' + hours + '小时' + minutes + '分钟' + seconds + '秒';
 }
