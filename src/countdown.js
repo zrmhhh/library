@@ -28,5 +28,4 @@ function timeElapse(dateTim){
     minutes,
     seconds
   }
-  // return days + '天' + hours + '小时' + minutes + '分钟' + seconds + '秒';
 }
