@@ -2,14 +2,13 @@
  *
  * @param {int} dateTim 时间戳
  */
-function timeElapse(dateTim, type) {
+function countdown(dateTim, type) {
   if (typeof dateTim !== 'number') return {};
   var days = 0,
     hours = 0,
     minutes = 0,
     seconds = 0;
-  var current = Date();
-  var time = seconds = (Date.parse(current) - dateTim) / 1000;
+  var time = seconds = (Date.now - dateTim) / 1000;
 
   days = Math.floor(seconds / (3600 * 24));
   seconds = seconds % (3600 * 24);
