@@ -1,6 +1,6 @@
 /**
  * 
- * @param {int} dateTim 
+ * @param {int} dateTim 时间戳
  */
 function timeElapse(dateTim){
   var current = Date();
