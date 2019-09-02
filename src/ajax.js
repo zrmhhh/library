@@ -1,6 +1,3 @@
-// eg:
-ajax('post', '/index.php/pay/api/api/h5', {}, function(){}, function(){});
-
 // ajax
 function ajax(type, url, data, success, failed) {
     // 创建ajax对象

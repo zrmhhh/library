@@ -3,6 +3,8 @@
 
 ### ajax.js
 	原生ajax，可扩展
+	eg:
+		ajax('post', '/index.php/pay/api/api/h5', {}, function(){}, function(){});
 
 ### parse_template.js
 	字符串模板、占位替换
