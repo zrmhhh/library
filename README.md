@@ -4,6 +4,7 @@
 ### ajax.js
 原生ajax，可扩展
 ``` javascript
+  // eg
 	ajax('post', '/index.php/pay/api/api/h5', {}, function success(){}, function failed(){});
 ```
 
@@ -16,6 +17,7 @@
 ### cut_img.js
 图片裁剪
 ``` javascript
+  // eg
 	function getQueryString(name) {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 		var r = window.location.search.substr(1).match(reg);
