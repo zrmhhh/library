@@ -1,5 +1,4 @@
-# frontend_library
-原生js实现的前端工具库；
+# 原生js实现的前端工具库
 
 ### ajax.js
 原生ajax，可扩展
