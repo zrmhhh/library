@@ -3,8 +3,9 @@
 
 ### ajax.js
 原生ajax，可扩展
-	eg:
-		ajax('post', '/index.php/pay/api/api/h5', {}, function(){}, function(){});
+``` javascript
+	ajax('post', '/index.php/pay/api/api/h5', {}, function success(){}, function failed(){});
+```
 
 ### parse_template.js
 字符串模板、占位替换
@@ -15,12 +16,12 @@
 ### cut_img.js
 图片裁剪
 ``` javascript
-function getQueryString(name) {
-	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-	var r = window.location.search.substr(1).match(reg);
-	if (r != null) return unescape(r[2]);
-	return null;     
-}
+	function getQueryString(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]);
+		return null;     
+	}
 ```
 
 ### countdown.js
