@@ -14,7 +14,7 @@
 
 ### cut_img.js
 图片裁剪
-```
+``` javascript
 function getQueryString(name) {
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 	var r = window.location.search.substr(1).match(reg);
