@@ -12,13 +12,13 @@ function countdown(dateTim, type) {
 
   days = Math.floor(seconds / (3600 * 24));
   seconds = seconds % (3600 * 24);
-  if(type === 'hours') seconds = time;
+  if (type === 'hours') seconds = time;
   hours = Math.floor(seconds / 3600);
   seconds = seconds % 3600;
-  if(type === 'minutes') seconds = time;
+  if (type === 'minutes') seconds = time;
   minutes = Math.floor(seconds / 60);
   seconds = seconds % 60;
-  if(type === 'minutes') seconds = time;
+  if (type === 'minutes') seconds = time;
   seconds = Math.floor(seconds);
 
   // 添加0

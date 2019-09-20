@@ -6,8 +6,8 @@ var fileData = {
   max: 140,
   url: url
 };
-this.ImgUploadService.draw(fileData, function(res){
-  
+this.ImgUploadService.draw(fileData, function (res) {
+
 })
 
 
@@ -23,24 +23,24 @@ export default class ImgUploadService {
   getPhotoOrientation(img, next) {
     var orient;
     EXIF.getData(img, function () {
-          orient = EXIF.getTag(this, 'Orientation');
-          next(orient);
+      orient = EXIF.getTag(this, 'Orientation');
+      next(orient);
     });
   }
 
   draw(data, next, id) {
     var that = this;
     var canvas, file = data.file,
-        max = data.max;
+      max = data.max;
     var context, img;
     if (that.isImage(file.type)) {
       img = new Image();
       img.src = that.getObjectURL(file);
-      img.onload = function() {
-        that.getPhotoOrientation(img, function(orient){
+      img.onload = function () {
+        that.getPhotoOrientation(img, function (orient) {
           // alert(orient);
           var maxWidth = img.width,
-          maxHeight = img.height;
+            maxHeight = img.height;
           if (img.width > img.height) {
             if (img.width > max) {
               maxWidth = max;
@@ -57,7 +57,7 @@ export default class ImgUploadService {
           } else {
             canvas = document.createElement('canvas');
           }
-          
+
           if (orient === 6) {
             canvas.setAttribute('width', maxHeight);
             canvas.setAttribute('height', maxWidth);
@@ -106,7 +106,7 @@ export default class ImgUploadService {
         return false;
     }
   }
-  
+
   getObjectURL(file) {
     var url = null;
     if (window.createObjectURL !== undefined) {
@@ -120,27 +120,27 @@ export default class ImgUploadService {
   };
 
   dataURItoBlob(dataURI) {
-      // convert base64 to raw binary data held in a string
-      // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
     var byteString = atob(dataURI.split(',')[1]);
 
-      // separate out the mime component
+    // separate out the mime component
     var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
-      // write the bytes of the string to an ArrayBuffer
+    // write the bytes of the string to an ArrayBuffer
     var ab = new ArrayBuffer(byteString.length);
     var ia = new Uint8Array(ab);
     for (var i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
-      // write the ArrayBuffer to a blob, and you're done
+    // write the ArrayBuffer to a blob, and you're done
     var blob = new Blob([ab], { type: mimeString });
     return blob;
 
-      // Old code
-      // var bb = new BlobBuilder();
-      // bb.append(ab);
-      // return bb.getBlob(mimeString);
+    // Old code
+    // var bb = new BlobBuilder();
+    // bb.append(ab);
+    // return bb.getBlob(mimeString);
   }
 }
 
