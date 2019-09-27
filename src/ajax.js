@@ -1,4 +1,3 @@
-// ajax
 function ajax(type, url, data, success, failed) {
   // 创建ajax对象
   var xhr = null;
