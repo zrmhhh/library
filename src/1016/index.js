@@ -1,4 +1,4 @@
-
+// 相同文件、空文件删除，片长百分比截图
 var fs = require('fs'); // 引入fs模块
 var crypto = require('crypto');
  
