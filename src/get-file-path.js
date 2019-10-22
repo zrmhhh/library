@@ -1,7 +1,7 @@
 let fs = require('fs');
 let path = require('path');
 let rootPath = path.resolve();
-let filePath = path.resolve() + '/../web/avideo';
+let filePath = path.resolve() + '/out';
 
 let rootArr = [];
 
@@ -63,7 +63,6 @@ function readFile(readurl, name, testArr, next) {
 }
 
 // already
-
 function already() {
   console.log('already');
 }
@@ -72,7 +71,7 @@ function already() {
 function writeFile(data) {
   if (typeof data === 'object') data = JSON.stringify(data);
   data = 'let json = ' + data;
-  fs.writeFile(rootPath + '/../web/js/' + 'filelist.js', data + '\n', function(err) {
+  fs.writeFile(rootPath + '/out/' + 'filelist.js', data + '\n', function(err) {
     if (err) throw err;
     console.log('写入成功');
   });
