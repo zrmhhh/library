@@ -2,8 +2,6 @@ let fs = require('fs');
 let path = require('path');
 let rootPath = path.resolve();
 let filePath = path.resolve() + '/../web/avideo';
-let fileArr = [];
-let fileObj = {};
 
 let rootArr = [];
 
