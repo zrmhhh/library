@@ -45,5 +45,5 @@ int main(){
   // printf("请输入目标名称：");
   // scanf("%s", &filePath);
   // copyFile(filePath, targetPath);
-  removeFile();
+  // removeFile();
 }
