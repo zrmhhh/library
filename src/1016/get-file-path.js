@@ -66,4 +66,4 @@ function getSuffix(url) {
 }
 
 
-// run('C:/Users/bs/Desktop/frontend-library/src');
+run('C:/Users/bs/Desktop/frontend-library/src');

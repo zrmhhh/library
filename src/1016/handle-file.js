@@ -64,6 +64,7 @@ function comparisonFile(pathOne, pathTwo, next){
 		})
 	});
 }
+// comparisonFile('./out/test0001 - 副本.json', './out/test0001.json', (res) => {console.log(res)})
 
 module.exports = {
 	removeFile,

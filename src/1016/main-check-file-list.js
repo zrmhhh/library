@@ -6,10 +6,11 @@ function checkFileList(dataArr){
     dataArr.forEach(itemOne => {
         dataArr.forEach(itemTwo => {
             handleFile.comparisonFile(itemOne.path, itemTwo.path, res =>{
-                let isEq  = res;
-                if (isEq && itemOne.name === itemTwo.name) return;
+                let isEq = res;
+                if (itemOne.name === itemTwo.name && isEq) return;
                 // console.log(`${itemOne.name} = ${itemTwo.name} : ${isEq}`)
-                handleFile.removeFile(itemOne.path);
+                if (isEq) console.log(itemOne.path);
+                // if (isEq) handleFile.removeFile(itemOne.path);
             });
         })
     })
