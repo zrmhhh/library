@@ -1,5 +1,6 @@
 let fs = require('fs');
 let path = require('path');
+let rmFile = require('./rm-file').rmFile;
 let rootPath = path.resolve();
 
 let rootArr = [];
@@ -33,7 +34,7 @@ function readFile(readUrl, name, fileArr, next) {
             url: fullFileName
           };
           fileObj.urlList.push(dataJson);
-          // writeFile(rootArr);
+          writeFile(rootArr); // 待优化
         } else if (stats.isDirectory()) {
           readFile(fullFileName, filename, fileObj.titleList, already);
         }
@@ -65,4 +66,6 @@ function getSuffix(url) {
 }
 
 
-run('C:/Users/bs/Desktop/frontend-library/src');
+// run('C:/Users/bs/Desktop/frontend-library/src');
+
+rmFile('./out');
