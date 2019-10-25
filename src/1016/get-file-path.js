@@ -5,6 +5,7 @@ let filePath = path.resolve() + '/out';
 
 let rootArr = [];
 
+// main
 function run(){
   fs.readdir(filePath, function(err, files) {
     if (err) {
