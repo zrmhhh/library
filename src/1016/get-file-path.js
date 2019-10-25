@@ -1,62 +1,41 @@
 let fs = require('fs');
 let path = require('path');
 let rootPath = path.resolve();
-let filePath = path.resolve() + '/out';
 
 let rootArr = [];
 
 // main
-function run(){
-  fs.readdir(filePath, function(err, files) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    files.forEach(function(filename) {
-      fs.stat(path.join(filePath, filename), function(err, stats) {
-        if (err) throw err;
-        //文件
-        if (stats.isFile()) {
-        } else if (stats.isDirectory()) {
-          readFile(path.join(filePath, filename), filename, rootArr, already);
-        }
-      });
-    });
-  });
+function run(filePath){
+  let stats = fs.statSync(filePath); // fs.statSync -> fs.state
+  if(stats.isFile()) return console.log('must be directory!');
+  readFile(filePath, '', rootArr);
 }
 
-
-//获取文件数组
-function readFile(readurl, name, testArr, next) {
-  // console.log(name);
-  let testObj = {
+// get file array
+function readFile(readUrl, name, fileArr, next) {
+  let fileObj = {
     title: name,
     urlList: [],
     titleList: []
   };
-  testArr.push(testObj);
-  fs.readdir(readurl, function(err, files) {
-    if (err) {
-      console.log(err);
-      return;
-    }
+  fileArr.push(fileObj);
+  fs.readdir(readUrl, function(err, files) { // get all file list
+    if (err) throw err;
 
-    files.forEach(function(filename) {
-      let realFileName = path.join(readurl, filename);
-      fs.stat(realFileName, function(err, stats) {
+    files.forEach(filename => {
+      let fullFileName = path.join(readUrl, filename);
+      fs.stat(fullFileName, function(err, stats) {
         if (err) throw err;
         //是文件
         if (stats.isFile()) {
-          let reg = /.+vedio_stream_nodejs\\web\\/;
-          let urlName = realFileName.replace(reg, './');
-          let urlJson = {
+          let dataJson = {
             name: filename,
-            url: urlName
+            url: fullFileName
           };
-          testObj.urlList.push(urlJson);
-          writeFile(rootArr);
+          fileObj.urlList.push(dataJson);
+          // writeFile(rootArr);
         } else if (stats.isDirectory()) {
-          readFile(realFileName, filename, testObj.titleList, already);
+          readFile(fullFileName, filename, fileObj.titleList, already);
         }
       });
     });
@@ -68,22 +47,22 @@ function already() {
   console.log('already');
 }
 
-// 写入到filelisttxt文件
+// write to file
 function writeFile(data) {
   if (typeof data === 'object') data = JSON.stringify(data);
   data = 'let json = ' + data;
-  fs.writeFile(rootPath + '/out/' + 'filelist.js', data + '\n', function(err) {
+  fs.writeFile(rootPath + '/out/' + 'filelist.txt', data + '\n', function(err) {
     if (err) throw err;
     console.log('写入成功');
   });
 }
 
-//获取后缀名
-function getdir(url) {
+// get suffix
+function getSuffix(url) {
   let arr = url.split('.');
   let len = arr.length;
   return arr[len - 1];
 }
 
 
-run();
+run('C:/Users/bs/Desktop/frontend-library/src');
