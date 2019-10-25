@@ -1,14 +1,14 @@
 
-var fs = require('fs'); // 引入fs模块
-var crypto = require('crypto');
+let fs = require('fs'); // 引入fs模块
+let crypto = require('crypto');
  
-// 删除文件
+// 删除文件、文件夹
 function deleteall(path) {
-	var files = [];
+	let files = [];
 	if(fs.existsSync(path)) {
 		files = fs.readdirSync(path);
 		files.forEach(function(file, index) {
-			var curPath = path + "/" + file;
+			let curPath = path + "/" + file;
 			if(fs.statSync(curPath).isDirectory()) { // recurse
 				deleteall(curPath);
 			} else { // delete file
@@ -23,8 +23,8 @@ function deleteall(path) {
 
 // md5
 function checkMd5(path, next){
-	var rs = fs.createReadStream(path);
-	var hash = crypto.createHash('md5');
+	let rs = fs.createReadStream(path);
+	let hash = crypto.createHash('md5');
 	rs.on('data', hash.update.bind(hash));
 
 	rs.on('end', function () {
