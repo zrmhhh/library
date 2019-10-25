@@ -1,9 +1,10 @@
 let fs = require('fs');
 let path = require('path');
-let rmFile = require('./rm-file').rmFile;
-let rootPath = path.resolve();
+let rmFile = require('./handle-file').deleteFile;
+// let rootPath = path.resolve();
 
-let rootArr = [];
+let rootArr = []; // 结构化数据
+let flatDataArr = []; // 扁平数据
 
 // main
 function run(filePath){
@@ -16,8 +17,8 @@ function run(filePath){
 function readFile(readUrl, name, fileArr, next) {
   let fileObj = {
     title: name,
-    urlList: [],
-    titleList: []
+    fileUrlList: [],
+    childrenList: []
   };
   fileArr.push(fileObj);
   fs.readdir(readUrl, function(err, files) { // get all file list
@@ -33,10 +34,11 @@ function readFile(readUrl, name, fileArr, next) {
             name: filename,
             url: fullFileName
           };
-          fileObj.urlList.push(dataJson);
-          writeFile(rootArr); // 待优化
+          fileObj.fileUrlList.push(dataJson);
+          flatDataArr.push(dataJson); // 填充扁平数据
+          writeFile('./out/filelist.json', flatDataArr); // 待优化
         } else if (stats.isDirectory()) {
-          readFile(fullFileName, filename, fileObj.titleList, already);
+          readFile(fullFileName, filename, fileObj.childrenList, already);
         }
       });
     });
@@ -49,10 +51,10 @@ function already() {
 }
 
 // write to file
-function writeFile(data) {
+function writeFile(path, data) {
   if (typeof data === 'object') data = JSON.stringify(data);
   data = 'let json = ' + data;
-  fs.writeFile(rootPath + '/out/' + 'filelist.txt', data + '\n', function(err) {
+  fs.writeFile(path, data + '\n', function(err) {
     if (err) throw err;
     console.log('写入成功');
   });
@@ -66,6 +68,6 @@ function getSuffix(url) {
 }
 
 
-// run('C:/Users/bs/Desktop/frontend-library/src');
+run('C:/Users/bs/Desktop/frontend-library/src');
 
-rmFile('./out');
+// rmFile('./out');

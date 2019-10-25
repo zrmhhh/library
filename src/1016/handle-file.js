@@ -1,8 +1,11 @@
-
 let fs = require('fs'); // 引入fs模块
 let crypto = require('crypto');
+let fileList = require('./out/filelist.json');
  
-// 删除文件、文件夹
+/**
+ * 删除文件、文件夹
+ * @param {文件路径} path 
+ */
 function deleteFile(path) {
 	let files = [];
 	if(fs.existsSync(path)) {
@@ -21,7 +24,11 @@ function deleteFile(path) {
 
 // deleteFile('./001')
 
-// md5
+/**
+ * 检查文件是否一样
+ * @param {文件路径} path 
+ * @param {回调函数} next 
+ */
 function checkMd5(path, next){
 	let rs = fs.createReadStream(path);
 	let hash = crypto.createHash('md5');
@@ -39,7 +46,7 @@ function checkMd5(path, next){
 // 	})
 // });
 
-export {
+module.exports = {
 	deleteFile,
 	checkMd5
 }
