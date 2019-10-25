@@ -32,7 +32,7 @@ function readFile(readUrl, name, fileArr, next) {
         if (stats.isFile()) {
           let dataJson = {
             name: filename,
-            url: fullFileName
+            path: fullFileName
           };
           fileObj.fileUrlList.push(dataJson);
           flatDataArr.push(dataJson); // 填充扁平数据
