@@ -5,14 +5,14 @@ let crypto = require('crypto');
  * 删除文件、文件夹
  * @param {文件路径} path 
  */
-function deleteFile(path) {
+function removeFile(path) {
 	let files = [];
 	if(fs.existsSync(path)) {
 		files = fs.readdirSync(path);
 		files.forEach(function(file, index) {
 			let curPath = path + "/" + file;
 			if(fs.statSync(curPath).isDirectory()) { // recurse
-				deleteFile(curPath);
+				removeFile(curPath);
 			} else { // delete file
 				fs.unlinkSync(curPath);
 			}
@@ -21,7 +21,19 @@ function deleteFile(path) {
     }
 }
 
-// deleteFile('./001')
+// removeFile('./001')
+
+function copyFile(filePath, targetPath){
+	if (!fs.existsSync(filePath) || fs.existsSync(targetPath)) return false;
+	fs.copyFileSync(filePath, targetPath);
+}
+
+function moveFile(filePath, targetPath) {
+	if (!fs.existsSync(filePath) || fs.existsSync(targetPath)) return false;
+	fs.rename(filePath, targetPath, err => {
+		if (err) throw err;
+	})
+}
 
 /**
  * 文件生成md5
@@ -46,7 +58,7 @@ function checkMd5(path, next){
  */
 function comparisonFile(pathOne, pathTwo, next){
 	checkMd5(pathOne, (dataOne) => {
-		checkMd5(pathTwo, (dataTwon) => {
+		checkMd5(pathTwo, dataTwon => {
 			// console.log(dataOne === dataTwon);
 			next(dataOne === dataTwon);
 		})
@@ -54,7 +66,9 @@ function comparisonFile(pathOne, pathTwo, next){
 }
 
 module.exports = {
-	deleteFile,
+	removeFile,
 	checkMd5,
-	comparisonFile
+	comparisonFile,
+	copyFile,
+	moveFile
 }

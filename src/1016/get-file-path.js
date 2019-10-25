@@ -1,6 +1,5 @@
 let fs = require('fs');
 let path = require('path');
-let rmFile = require('./handle-file').deleteFile;
 // let rootPath = path.resolve();
 
 let rootArr = []; // 结构化数据
@@ -53,7 +52,6 @@ function already() {
 // write to file
 function writeFile(path, data) {
   if (typeof data === 'object') data = JSON.stringify(data);
-  data = 'let json = ' + data;
   fs.writeFile(path, data + '\n', function(err) {
     if (err) throw err;
     console.log('写入成功');
@@ -68,6 +66,4 @@ function getSuffix(url) {
 }
 
 
-run('C:/Users/bs/Desktop/frontend-library/src');
-
-// rmFile('./out');
+// run('C:/Users/bs/Desktop/frontend-library/src');
