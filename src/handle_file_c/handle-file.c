@@ -30,15 +30,21 @@ int copyFile(char filePath[], char targetPath[]){
   return 0;
 }
 
-// int moveFile(char oldPath[], char newPath[]){
-//   int rename(*oldPath, *newPath);
-// }
+int moveFile(char oldPath[], char newPath[]){
+  int ret = rename(oldPath, newPath);
+  if (ret == 0)
+    printf("mv file %s", newPath);
+  else
+    printf("mv error");
+}
 
 int main(){
   char filePath[] = "./out/test";
-  char targetPath[] = "./out/test.test";
-  copyFile(filePath, targetPath);
+  char targetPath[] = "./out/test.t";
+  // copyFile(filePath, targetPath);
 
   // char filePath[] = "./out/test.json";
   // removeFile(filePath);
+
+  moveFile(filePath, targetPath);
 }
