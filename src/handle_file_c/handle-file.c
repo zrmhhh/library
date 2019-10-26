@@ -1,25 +1,22 @@
 #include <stdio.h>
 
-int removeFile(char path[]){
-  char filename[80];
-  printf("请输入要删除的文件名：");
-  scanf("%s", &filename);
-  if (remove(filename) == 0)
-    printf("成功删除文件： %s \n", filename);
+int removeFile(char filePath[]){
+  if (remove(filePath) == 0)
+    printf("remove file： %s \n", filePath);
   else
-    perror("删除文件报错");
+    perror("remove error");
 }
 
-bool copyFile(char filePath[], char targetPath[]){
+int copyFile(char filePath[], char targetPath[]){
   char ch;
   FILE *pfr = fopen(filePath, "r");
   FILE *pfw = fopen(targetPath, "w");
 
   if (NULL == pfw) {
-    perror("open file %s", &filePath);
+    perror("open pfw file error");
   }
   if (NULL == pfr) {
-    perror("open file %s", &targetPath);
+    perror("open pfr file error");
   }
 
   while ((ch = fgetc(pfr) != EOF)) {
@@ -30,7 +27,7 @@ bool copyFile(char filePath[], char targetPath[]){
   fclose(pfw);
   pfr = NULL;
   pfw = NULL;
-  return true;
+  return 0;
 }
 
 // int moveFile(char oldPath[], char newPath[]){
@@ -38,12 +35,10 @@ bool copyFile(char filePath[], char targetPath[]){
 // }
 
 int main(){
-  // char filePath[80];
-  // char targetPath[80];
-  // printf("请输入文件名称：");
-  // scanf("%s", &filePath);
-  // printf("请输入目标名称：");
-  // scanf("%s", &filePath);
-  // copyFile(filePath, targetPath);
-  // removeFile();
+  char filePath[] = "./out/test";
+  char targetPath[] = "./out/test.test";
+  copyFile(filePath, targetPath);
+
+  // char filePath[] = "./out/test.json";
+  // removeFile(filePath);
 }
