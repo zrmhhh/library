@@ -38,11 +38,12 @@ bool copyFile(char filePath[], char targetPath[]){
 // }
 
 int main(){
-  char filePath[80];
+  /*char filePath[80];
   char targetPath[80];
   printf("请输入文件名称：");
   scanf("%s", &filePath);
   printf("请输入目标名称：");
   scanf("%s", &filePath);
-  copyFile(filePath, targetPath);
+  copyFile(filePath, targetPath);*/
+  removeFile();
 }
