@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+ul, li {
+  list-style: none;
+}
+html, body, .app-page {
+  height: 100%;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+
+/* app */
+.app-page{
+  background: #f4f4f4;
+  font-size: 0.28rem;
+}
+.video-list{
+  padding: 0.4rem;
+}
+.video-item{
+  width: 50%;
+  background-color: #fff;
+  border-radius: 0.1rem;
+  overflow: hidden;
+}
+.video-item .img {
+  height: 2rem;
+  background-color: #000;
+}
+.video-item .video-title {
+  padding: 0.2rem 0.4rem 0.4rem;
+}
+.video-item .ctrl{
+
+}
+.video-item .ctrl .favour{
+  display: inline-block;
+  margin: 0 0.4rem 0.2rem;
+  padding: 0.04rem 0.1rem;
+  background-color: #fb7299;
+  color: #fff;
+  font-size: 0.24rem;
+  border-radius: 0.04rem;
+}
