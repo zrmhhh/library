@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>video</title>
+    <!-- <link rel="stylesheet" href="./index.css"> -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        html,
+        body,
+        .app-page {
+            min-height: 100vh;
+        }
+
+        .fl {
+            float: left;
+        }
+
+        .fr {
+            float: right;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        /* search */
+        .search {
+            padding: 0.4rem 0rem;
+            padding-left: 0.2rem;
+            /* padding: 0.4rem 0.5rem; */
+            /* background-color: #fff; */
+        }
+
+        .search input {
+            /* width: 100%; */
+            height: 0.6rem;
+            padding: 0.04rem 0.08rem;
+            border: 1px solid #ccc;
+            border-radius: 0.1rem;
+            outline: none;
+        }
+
+        /* page */
+        .app-page {
+            background: #f4f4f4;
+            font-size: 0.28rem;
+        }
+
+        .photo-list {
+            padding: 0.1rem 0.2rem;
+            overflow: hidden;
+        }
+
+        .photo-item {
+            /* padding-bottom: 0.4rem; */
+            height: 0.8rem;
+            line-height: 0.8rem;
+            padding-left: 0.2rem;
+            border-bottom: 1px solid #f4f4f4;
+            overflow: hidden;
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-page">
+        <div class="search">
+            <input type="text" placeholder="search" id="search">
+        </div>
+        <ul class="photo-list">
+            <li class="photo-item">
+                test
+            </li>
+            <li class="photo-item">
+                test
+            </li>
+            <li class="photo-item">
+                test
+            </li>
+            <li class="photo-item">
+                test
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    /**
+  * YDUI 可伸缩布局方案
+  * rem计算方式：设计图尺寸px / 100 = 实际rem 【例: 100px = 1rem，32px = .32rem】
+  */
+    !(function (window) {
+        /* 设计图文档宽度 */
+        var docWidth = 750;
+
+        var doc = window.document,
+            docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+
+        var recalc = (function refreshRem() {
+            var clientWidth = docEl.getBoundingClientRect().width;
+
+            /* 8.55：小于320px不再缩小，11.2：大于420px不再放大 */
+            docEl.style.fontSize =
+                Math.max(Math.min(20 * (clientWidth / docWidth), 11.2), 8.55) * 5 + 'px';
+
+            return refreshRem;
+        })();
+
+        /* 添加倍屏标识，安卓为1 */
+        docEl.setAttribute(
+            'data-dpr',
+            window.navigator.appVersion.match(/iphone/gi) ? window.devicePixelRatio : 1
+        );
+
+        if (/iP(hone|od|ad)/.test(window.navigator.userAgent)) {
+            /* 添加IOS标识 */
+            doc.documentElement.classList.add('ios');
+            /* IOS8以上给html添加hairline样式，以便特殊处理 */
+            if (
+                parseInt(
+                    window.navigator.appVersion.match(/OS (\d+)_(\d+)_?(\d+)?/)[1],
+                    10
+                ) >= 8
+            )
+                doc.documentElement.classList.add('hairline');
+        }
+
+        if (!doc.addEventListener) return;
+        window.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(window);
+
+</script>
+<script src="./index.js"></script>
+
+</html>
