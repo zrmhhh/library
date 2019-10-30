@@ -34,33 +34,27 @@ html, body, .app-page {
   outline: none;
 }
 /* content */
-.video-list{
+.media-list{
   padding: 0.4rem;
   overflow: hidden;
 }
-.video-item{
+.media-item{
   width: 45%;
   margin-bottom: 0.5rem;
   background-color: #fff;
   border-radius: 0.1rem;
   overflow: hidden;
 }
-.video-item .img {
+.media-item .img {
   height: 2rem;
   background-color: #000;
 }
-.video-item .video-title {
-  padding: 0.2rem 0.4rem 0.4rem;
-}
-.video-item .ctrl{
-
-}
-.video-item .ctrl .favour{
-  display: inline-block;
-  margin: 0 0.4rem 0.2rem;
-  padding: 0.04rem 0.1rem;
-  background-color: #fb7299;
-  color: #fff;
+/* font */
+.media-item .media-title {
+  padding: 0.2rem;
   font-size: 0.24rem;
-  border-radius: 0.04rem;
+}
+.media-item .ctrl{
+  overflow: hidden;
+  padding: 0rem 0.2rem 0.2rem;
 }
