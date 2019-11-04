@@ -3,7 +3,7 @@ import java.io.FileFilter;
 
 public class GetFilePath {
   public static void main(String[] args) {
-    String path = "./out";
+    String path = "../../../../library";
     File file = new File(path);
     handleFile(file);
   }
