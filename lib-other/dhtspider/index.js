@@ -36,6 +36,7 @@ spider.on('ensureHash', (hash, addr) => {
         });
     })
     req.write(content);
+    req.end();
 })
 spider.listen(6339)
 
