@@ -7,7 +7,7 @@ function ajax(type, url, data, success, failed) {
     xhr = new ActiveXObject('Microsoft.XMLHTTP')
   }
 
-  var type = type.toUpperCase();
+  type = type.toUpperCase();
   // 用于清除缓存 todo 要加时间戳哈希
   var tim = Date.now();
 
