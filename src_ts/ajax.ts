@@ -1,6 +1,6 @@
-function ajax(type: String, url: String, data: String, success: Function, failed: Function) {
+function ajax(type: string, url: string, data: string | object, success: Function, failed: Function): void {
     // 创建ajax对象
-    var xhr = null;
+    let xhr: XMLHttpRequest;
     if (window.XMLHttpRequest) {
       xhr = new XMLHttpRequest();
     } else {
@@ -9,11 +9,11 @@ function ajax(type: String, url: String, data: String, success: Function, failed
   
     type = type.toUpperCase();
     // 用于清除缓存 todo 要加时间戳哈希
-    var tim = Date.now();
+    const tim = Date.now();
   
     if (typeof data === 'object') {
-      var str = '';
-      for (var key in data) {
+      let str = '';
+      for (let key in data) {
         str += key + '=' + data[key] + '&';
       }
       data = str.replace(/&$/, '');
