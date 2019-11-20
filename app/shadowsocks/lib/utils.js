@@ -1,4 +1,3 @@
-const util = require("util");
 const path = require("path");
 const fs = require("fs");
 const pack = require("../package.json");

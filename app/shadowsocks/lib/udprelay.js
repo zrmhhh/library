@@ -4,7 +4,6 @@ const encryptor = require("./encrypt");
 const { getServer } = require("./ips");
 
 const dgram = require("dgram");
-const net = require("net");
 
 class LRUCache {
   constructor(timeout, sweepInterval) {
