@@ -1,21 +1,18 @@
-var net = require('net');
-var local_port = 8893;
+let net = require('net');
+const SERVER_PORT = 8889;
+const SERVER_HOST = '127.0.0.1';
 
-//在本地创建一个server监听本地local_port端口
-net.createServer(function (client) {
-
-    //首先监听浏览器的数据发送事件，直到收到的数据包含完整的http请求头
+net.createServer(client => {
     var buffer = new Buffer(0);
-    client.on('data', function (data) {
+    client.on('data', data => {
         buffer = buffer_add(buffer, data);
         if (buffer_find_body(buffer) == -1) return;
         var req = parse_request(buffer);
         if (req === false) return;
         client.removeAllListeners('data');
         relay_connection(req);
-    });
+    })
 
-    //从http请求头部取得请求信息后，继续监听浏览器发送数据，同时连接目标服务器，并把目标服务器的数据传给浏览器
     function relay_connection(req) {
         console.log(req.method + ' ' + req.host + ':' + req.port);
 
@@ -38,19 +35,26 @@ net.createServer(function (client) {
         }
 
         //建立到目标服务器的连接
+        console.log(`port: ${req.port}`)
+        console.log(`host: ${req.host}`)
+        // console.log(SERVER_PORT, SERVER_HOST);
         var server = net.createConnection(req.port, req.host);
+        // console.log(server)
         //交换服务器与浏览器的数据
         client.on("data", function (data) { server.write(data); });
-        server.on("data", function (data) { client.write(data); });
+        server.on("data", function (data) { console.log('server res'); client.write(data); });
 
         if (req.method == 'CONNECT')
             client.write(new Buffer("HTTP/1.1 200 Connection established\r\nConnection: close\r\n\r\n"));
         else
             server.write(buffer);
     }
-}).listen(local_port);
+}).listen(6666);
 
-console.log('Proxy server running at localhost:' + local_port);
+process.on('uncaughtException', err => {
+    console.log(err);
+});
+
 
 
 //处理各种错误
