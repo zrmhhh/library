@@ -1,8 +1,11 @@
 let net = require('net');
+const { Encryptor } = require("./lib/encrypt");
+let encryptor = new Encryptor('123456', 'aes-256-cfb');
 
 net.createServer(client => {
     var buffer = new Buffer(0);
     client.on('data', data => {
+        // data = encryptor.decrypt(data);
         buffer = buffer_add(buffer, data);
         if (buffer_find_body(buffer) == -1) return;
         var req = parse_request(buffer);
