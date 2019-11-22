@@ -40,7 +40,10 @@ net.createServer(client => {
         // console.log(`host: ${req.host}`)
         var server = net.createConnection(req.port, req.host);
         //交换服务器与浏览器的数据
-        client.on("data", function (data) { server.write(data); });
+        client.on("data", function (data) {
+            // data = encryptor.decrypt(data);
+            server.write(data);
+        });
         server.on("data", function (data) { client.write(data); });
 
         if (req.method == 'CONNECT')

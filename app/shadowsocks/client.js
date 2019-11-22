@@ -12,6 +12,7 @@ net.createServer(client => {
         // data = encryptor.encrypt(data);
         server.write(data);
         client.on("data", function (data) {
+            // data = encryptor.encrypt(data);
             server.write(data);
         });
         server.on("data", function (data) { client.write(data); });
