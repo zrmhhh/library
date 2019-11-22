@@ -1,5 +1,5 @@
 let net = require('net');
-const { Encryptor } = require("./lib/encrypt");
+const { Encryptor } = require("../lib/encrypt");
 let encryptor = new Encryptor('123456', 'aes-256-cfb');
 
 net.createServer(client => {

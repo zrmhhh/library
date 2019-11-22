@@ -1,5 +1,5 @@
 const net = require('net');
-const { Encryptor } = require("./lib/encrypt");
+const { Encryptor } = require("../lib/encrypt");
 const SERVER_PORT = 6666;
 const SERVER_HOST = '127.0.0.1';
 let encryptor = new Encryptor('123456', 'aes-256-cfb');
