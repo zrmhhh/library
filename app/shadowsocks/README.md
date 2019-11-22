@@ -12,5 +12,5 @@
   "server_port": 9960,
   "local_address": "127.0.0.1",
   "local_port": 1080,
-  "password": "dhhpey6ucn"
+  "password": "dhhpey6ucn___zy"
 }
