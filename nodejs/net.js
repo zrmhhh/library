@@ -2,11 +2,13 @@ var net = require('net');
 
 net.createServer(function (client) {
     client.on('data', function (data) {
-        console.log('client')
-        var server = net.createConnection(2222, '127.0.0.1');
-        server.write(Buffer.from('client'))
-        client.on("data", function (data) { console.log('client: client'); server.write(data); });
-        server.on("data", function (data) { console.log('client: server'); client.write(data); });
+        console.log(data.toString())
+        client.write(data);
+        // console.log('client')
+        // var server = net.createConnection(2222, '127.0.0.1');
+        // server.write(Buffer.from('client'))
+        // client.on("data", function (data) { console.log('client: client'); server.write(data); });
+        // server.on("data", function (data) { console.log('client: server'); client.write(data); });
     });
 }).listen(1111);
 
