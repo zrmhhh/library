@@ -23,7 +23,7 @@ function del(id){
 
             'X-MERCHANT-ID': '185',
             'X-AUTH-KEY': 'N0195admin',
-            'X-AUTH-TOKEN': 'MJuiLLd4yynakhDzP1DT1echK3B6sQyR'
+            'X-AUTH-TOKEN': 'TOKEN'
         }
     };
     let req = https.request(options, res => {
