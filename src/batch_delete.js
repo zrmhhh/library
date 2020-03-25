@@ -8,7 +8,7 @@ function del(id){
         merchantId: 185
     })
     let options = {
-        hostname: 'api.sqzw.com',
+        hostname: 'www.test.com',
         path: '/sq/merchant/api/store/v1/delete',
         port: 443,
         method: 'POST',
@@ -16,13 +16,13 @@ function del(id){
             'Content-Type': 'application/json;charset=UTF-8',
             // 'Content-Length': content.length,
 
-            'Origin': 'https://merchant.sqzw.com',
-            'Referer': 'https://merchant.sqzw.com/',
+            'Origin': 'https://www.test.com',
+            'Referer': 'https://www.test.com/',
             'Sec-Fetch-Mode': 'cors',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36',
 
-            'X-MERCHANT-ID': '185',
-            'X-AUTH-KEY': 'N0195admin',
+            'X-MERCHANT-ID': 'ID',
+            'X-AUTH-KEY': 'KEY',
             'X-AUTH-TOKEN': 'TOKEN'
         }
     };
