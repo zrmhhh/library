@@ -9,7 +9,7 @@ function del(id){
     })
     let options = {
         hostname: 'www.test.com',
-        path: '/sq/merchant/api/store/v1/delete',
+        path: 'path',
         port: 443,
         method: 'POST',
         headers: {
