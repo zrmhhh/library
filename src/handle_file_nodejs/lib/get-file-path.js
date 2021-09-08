@@ -27,7 +27,8 @@ function readFileSync(dirPath) {
       let dataJson = {
         name: filename,
         path: rootPath,
-        size: stats.size
+        size: stats.size / 1024 / 1024, // MB
+        size_bit: stats.size // bit
       };
       flatDataArr.push(dataJson); // 填充扁平数据
     } else if (stats.isDirectory()) {

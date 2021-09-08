@@ -1,7 +1,7 @@
 const fs = require('fs'); // 引入fs模块
  
 /**
- * 删除文件、文件夹
+ * 删除文件、文件夹（删除是危险操作，已注释，建议使用移动功能，二次确认后手动删除）
  * @param {string} path 文件路径
  */
 function removeFile(path) {
@@ -15,11 +15,11 @@ function removeFile(path) {
 				removeFile(curPath);
 			} else {
 				// delete file
-				fs.unlinkSync(curPath);
+				// fs.unlinkSync(curPath);
 			}
 		});
 		// 删除目录
-		fs.rmdirSync(path);
+		// fs.rmdirSync(path);
     }
 }
 
