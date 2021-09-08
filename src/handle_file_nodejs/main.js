@@ -1,8 +1,7 @@
 global._DIR_ROOT_ = __dirname;
-// const filePathListData = require('./_cache/filePathList.json')
-const getFilePath = require('./lib/get-file-path.js');
+const { generateFilePathTree } = require('./lib/index.js');
 
-getFilePath('C:/Users/Administrator/Desktop/github')
+generateFilePathTree('C:/Users/Administrator/Desktop/github/_github-main/library')
 
 // let arr = []
 // filePathListData.forEach(fileItem => {

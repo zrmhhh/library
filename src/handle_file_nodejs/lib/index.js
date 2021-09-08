@@ -1,7 +1,9 @@
 const { moveFile, writeFile } = require('./file-handle.js')
 const generateMD5 = require('./file-utils.js')
+const getFilePath = require('./lib/get-file-path.js');
 
-class HandleFile {
+class FileLib {
+    generateFilePathTree = getFilePath
     /**
      * create symbol to file
      * @param {Array} filePathList 文件列表
@@ -43,4 +45,4 @@ class HandleFile {
     }
 }
 
-module.exports = HandleFile
+module.exports = FileLib

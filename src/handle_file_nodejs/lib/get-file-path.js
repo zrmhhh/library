@@ -25,12 +25,11 @@ function readFileSync(dirPath) {
     let stats = fs.statSync(rootPath);
     //是文件
     if (stats.isFile()) {
-      hash = await generateMD5(rootPath);
-      console.log(hash)
+      // hash = await generateMD5(rootPath);
       let dataJson = {
         name: filename,
         path: rootPath,
-        hash,
+        // hash,
         size: stats.size / 1024 / 1024, // MB
         size_bit: stats.size // bit
       };
