@@ -1,11 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const { writeFile } = require('./handle-file.js');
+const { writeFile } = require('./file-handle.js');
 
 let flatDataArr = []; // 扁平数据
 
 /**
- * 获取文件Path树
+ * 生成文件Path树
  * @param {String} entryPath 文件夹或文件path
  * @returns undefined 返回undefined，生成JSON文件
  */

@@ -45,5 +45,7 @@ function comparisonFile(pathOne, pathTwo, next){
 }
 
 module.exports = {
-  getFileSuffix
+  getFileSuffix,
+  generateMD5,
+  comparisonFile
 }

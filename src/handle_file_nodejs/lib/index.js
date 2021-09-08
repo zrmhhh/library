@@ -1,4 +1,5 @@
-// let filePathListData = require(`${_DIR_ROOT_}/_cache/filePathList.json`);
+const { moveFile, writeFile } = require('./file-handle.js')
+const generateMD5 = require('./file-utils.js')
 
 class HandleFile {
     /**
@@ -7,9 +8,9 @@ class HandleFile {
      */
     createHash = async function createHash(filePathList){
         filePathList.forEach( async file => {
-            let hash = await handleFile.checkMd5(file.path);
+            let hash = await generateMD5(file.path);
             file.hash = hash;
-            handleFile.writeFile(`${_DIR_ROOT_}/_cache/filePathList.json`, filePathList);
+            writeFile(`${_DIR_ROOT_}/_cache/filePathListHash.json`, filePathList);
         })
     }
 
@@ -22,7 +23,7 @@ class HandleFile {
             filePathList.forEach(fileTwo => {
                 if (fileOne.hash === fileTwo.hash) {
                     if (fileOne.name === fileTwo.name) return;
-                    handleFile.moveFile(fileOne.path, `./new-delete/${fileOne.name}`)
+                    moveFile(fileOne.path, `./new-delete/${fileOne.name}`)
                 }
             })
         })
@@ -36,9 +37,10 @@ class HandleFile {
         filePathList.forEach(file => {
             let reg = /.png$/;
             if (file.size === 0 || reg.test(file.name)) {
-                handleFile.moveFile(file.path, `./delete/${file.name}`);
+                moveFile(file.path, `./delete/${file.name}`);
             }
         })
     }
 }
 
+module.exports = HandleFile
