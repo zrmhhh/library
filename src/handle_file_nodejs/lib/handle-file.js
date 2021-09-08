@@ -1,5 +1,5 @@
-let fs = require('fs'); // 引入fs模块
-let crypto = require('crypto');
+const fs = require('fs'); // 引入fs模块
+const crypto = require('crypto');
  
 /**
  * 删除文件、文件夹

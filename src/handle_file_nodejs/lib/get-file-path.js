@@ -1,14 +1,19 @@
-let fs = require('fs');
-let path = require('path');
+const fs = require('fs');
+const path = require('path');
+const { writeFile } = require('./handle-file.js');
 
 let flatDataArr = []; // 扁平数据
 
-// main
-function run(filePath){
-  let stats = fs.statSync(filePath); // fs.statSync -> fs.state
+/**
+ * 获取文件Path树
+ * @param {String} entryPath 文件夹或文件path
+ * @returns undefined 返回undefined，生成JSON文件
+ */
+function main(entryPath){
+  let stats = fs.statSync(entryPath); // fs.statSync -> fs.state
   if(stats.isFile()) return console.log('must be directory!');
-  readFileSync(filePath);
-  writeFile('./filelist.json', flatDataArr);
+  readFileSync(entryPath);
+  writeFile(`${_DIR_ROOT_}/_cache/filePathList.json`, flatDataArr);
 }
 
 // sync get list
@@ -47,7 +52,7 @@ function readFile(dirPath) {
             size: stats.size
           };
           // flatDataArr.push(dataJson); // 填充扁平数据
-          // writeFile('./out/filelist.json', flatDataArr); // 待优化
+          // writeFile('./out/filePathList.json', flatDataArr); // 待优化
         } else if (stats.isDirectory()) {
           readFile(fullFileName);
         }
@@ -56,22 +61,5 @@ function readFile(dirPath) {
   });
 }
 
-// write to file
-function writeFile(path, data) {
-  if (typeof data === 'object') data = JSON.stringify(data);
-  fs.writeFile(path, data + '\n', function(err) {
-    if (err) throw err;
-    console.log('写入成功');
-  });
-}
-
-// get suffix
-function getSuffix(url) {
-  let arr = url.split('.');
-  let len = arr.length;
-  return arr[len - 1];
-}
-
-// run('F:/project');
-run('../../src');
-// run('./out');
+// main('../../src');
+module.exports = main;
