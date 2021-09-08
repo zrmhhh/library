@@ -1,7 +1,7 @@
 global._DIR_ROOT_ = __dirname;
-const { generateFilePathTree } = require('./lib/index.js');
+const FileLib = require('./lib/index.js');
 
-generateFilePathTree('C:/Users/Administrator/Desktop/github/_github-main/library')
+FileLib.generateFilePathTree('C:/Users/Administrator/Desktop/github/_github-main/library')
 
 // let arr = []
 // filePathListData.forEach(fileItem => {
