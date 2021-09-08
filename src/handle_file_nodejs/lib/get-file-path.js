@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { writeFile } = require('./file-handle.js');
+const { generateMD5 } = require('./file-utils.js');
 
 let flatDataArr = []; // 扁平数据
 
@@ -19,14 +20,17 @@ function main(entryPath){
 // sync get list
 function readFileSync(dirPath) {
   let files = fs.readdirSync(dirPath);
-  files.forEach(filename => {
+  files.forEach(async filename => {
     let rootPath = path.resolve(path.join(dirPath, filename));
     let stats = fs.statSync(rootPath);
     //是文件
     if (stats.isFile()) {
+      hash = await generateMD5(rootPath);
+      console.log(hash)
       let dataJson = {
         name: filename,
         path: rootPath,
+        hash,
         size: stats.size / 1024 / 1024, // MB
         size_bit: stats.size // bit
       };
