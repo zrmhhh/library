@@ -1,5 +1,4 @@
 const fs = require('fs'); // 引入fs模块
-const crypto = require('crypto');
  
 /**
  * 删除文件、文件夹
@@ -9,23 +8,38 @@ function removeFile(path) {
 	let files = [];
 	if(fs.existsSync(path)) {
 		files = fs.readdirSync(path);
-		files.forEach(function(file, index) {
+		files.forEach( file => {
 			let curPath = path + "/" + file;
-			if(fs.statSync(curPath).isDirectory()) { // recurse
+			if(fs.statSync(curPath).isDirectory()) {
+				// 递归删除文件夹内文件
 				removeFile(curPath);
-			} else { // delete file
+			} else {
+				// delete file
 				fs.unlinkSync(curPath);
 			}
 		});
+		// 删除目录
 		fs.rmdirSync(path);
     }
 }
 
+/**
+ * 复制文件
+ * @param {String} filePath 
+ * @param {String} targetPath 
+ * @returns 
+ */
 function copyFile(filePath, targetPath){
 	if (!fs.existsSync(filePath) || fs.existsSync(targetPath)) return false;
 	fs.copyFileSync(filePath, targetPath);
 }
 
+/**
+ * 移动文件
+ * @param {String} filePath 
+ * @param {String} targetPath 
+ * @returns 
+ */
 function moveFile(filePath, targetPath) {
 	if (!fs.existsSync(filePath) || fs.existsSync(targetPath)) return false;
 	fs.rename(filePath, targetPath, err => {
@@ -34,38 +48,10 @@ function moveFile(filePath, targetPath) {
 }
 
 /**
- * 文件生成md5
- * @param {string} path 文件路径
- * @param {function} next 回调函数
+ * 写入文件
+ * @param {String} path 
+ * @param {Object | String} data 
  */
-function checkMd5(path){
-	return new Promise((resolve, reject) => {
-		let rs = fs.createReadStream(path);
-		let hash = crypto.createHash('md5');
-		rs.on('data', hash.update.bind(hash));
-
-		rs.on('end', function () {
-			resolve(hash.digest('hex'));
-		});
-	})
-}
-
-/**
- * 对比两个文件是否相同
- * @param {string} [pathOne] 文件路径 
- * @param {string} [pathTwo] 文件路径
- * @param {function} [next] 回调函数
- */
-function comparisonFile(pathOne, pathTwo, next){
-	checkMd5(pathOne, (dataOne) => {
-		checkMd5(pathTwo, dataTwon => {
-			// console.log(dataOne === dataTwon);
-			next(dataOne === dataTwon);
-		})
-	});
-}
-
-// write to file
 function writeFile(path, data) {
 	if (typeof data === 'object') data = JSON.stringify(data);
 	fs.writeFile(path, data + '\n', function(err) {
@@ -76,8 +62,6 @@ function writeFile(path, data) {
 
 module.exports = {
 	removeFile,
-	checkMd5,
-	comparisonFile,
 	copyFile,
 	moveFile,
 	writeFile
