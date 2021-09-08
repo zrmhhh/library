@@ -36,12 +36,9 @@ function generateMD5(path){
  * @param {function} next 回调函数
  */
 function comparisonFile(pathOne, pathTwo, next){
-	generateMD5(pathOne, (dataOne) => {
-		generateMD5(pathTwo, dataTwon => {
-			// console.log(dataOne === dataTwon);
-			next(dataOne === dataTwon);
-		})
-	});
+	Promise.all([generateMD5(pathOne), generateMD5(pathTwo)]).then(res => {
+		next(res[0] === res[1])
+	})
 }
 
 module.exports = {
