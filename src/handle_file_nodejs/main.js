@@ -1,5 +1,5 @@
-let fileListData = require('./out/filelist.json');
-let handleFile = require('./handle-file');
+// let fileListData = require('./out/filelist.json');
+let handleFile = require('./lib/handle-file');
 
 async function createHash(fileList){
     fileList.forEach( async file => {

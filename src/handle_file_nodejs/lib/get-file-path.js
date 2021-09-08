@@ -8,7 +8,7 @@ function run(filePath){
   let stats = fs.statSync(filePath); // fs.statSync -> fs.state
   if(stats.isFile()) return console.log('must be directory!');
   readFileSync(filePath);
-  writeFile('./out/filelist.json', flatDataArr);
+  writeFile('./filelist.json', flatDataArr);
 }
 
 // sync get list
@@ -73,5 +73,5 @@ function getSuffix(url) {
 }
 
 // run('F:/project');
-run('../../lib');
+run('../../src');
 // run('./out');
