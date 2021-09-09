@@ -1,5 +1,5 @@
 global._DIR_ROOT_ = __dirname;
-const FileLib = require('./lib/index.js');
+const FileLib = require('./src/index.js');
 
 let getFilePathTree = new FileLib.CreateFilePathTree('C:/Users/Administrator/Desktop/github')
 getFilePathTree.getPathTree()

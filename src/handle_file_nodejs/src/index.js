@@ -1,6 +1,6 @@
-const { moveFile, writeFile } = require('./file-handle.js')
-const generateMD5 = require('./file-utils.js')
-const CreateFilePathTree = require('./get-file-path.js');
+const { moveFile, writeFile } = require('./lib/file-handle.js')
+const generateMD5 = require('./lib/file-utils.js')
+const CreateFilePathTree = require('./lib/get-file-path.js');
 
 class FileLib {
     static CreateFilePathTree = CreateFilePathTree
