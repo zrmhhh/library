@@ -31,6 +31,10 @@ let subPages = [
     }
 ]
 
+let opsMenu = [
+    
+]
+
 module.exports = {
     homePages,
     subPages

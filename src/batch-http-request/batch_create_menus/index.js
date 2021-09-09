@@ -30,7 +30,7 @@ function createMenu(paramsObj){
             'Sec-Fetch-Mode': 'cors',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36',
 
-            'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhZG1pbi5sYWlkYW5tZS5jb200IiwiYXVkIjoiYWRtaW4ubGFpZGFubWUuY29tIiwiaWF0IjoxNjMxMTc1NzQ3LCJleHAiOjE2MzEyNjIxNDcsInN1YiI6eyJpZCI6MSwiYWNjb3VudCI6ImFkbWluIn19.XsBUQ-igwPGeIEOmXtn7z6UrcVLToF5Zq_tjPkntmGk',
+            'Authorization': 'Bearer',
         }
     };
     let req = http.request(options, res => {
