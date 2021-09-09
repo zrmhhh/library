@@ -53,7 +53,17 @@ class CreateFilePathTree {
       size: stats.size / 1024 / 1024, // MB
       size_bit: stats.size // bit
     };
-    this.flatDataFilePathTree[hash]= dataJson; // 填充扁平数据
+    
+    let existData = this.flatDataFilePathTree[hash]
+    if (existData) {
+      if (existData.length) {
+        this.flatDataFilePathTree[hash] = [...existData, dataJson]
+      } else {
+        this.flatDataFilePathTree[hash] = [existData, dataJson]
+      }
+    } else {
+      this.flatDataFilePathTree[hash]= dataJson; // 填充扁平数据
+    }
   
     this.fileOpenCount --
   }
