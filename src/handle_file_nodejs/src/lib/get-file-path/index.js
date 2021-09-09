@@ -11,6 +11,8 @@ const { generateMD5 } = require('../file-utils.js');
 class CreateFilePathTree {
   flatDataArr = []; // 扁平数据
   fileWriteLockList = [];
+  fileWriteLock = 0;
+  isPause = false;
 
   entryPath = '';
 
@@ -34,7 +36,8 @@ class CreateFilePathTree {
       let stats = fs.statSync(rootPath);
   
       if (stats.isFile()) {
-        this.fileWriteLockList.push(0)
+        // this.fileWriteLockList.push(0)
+        this.fileWriteLock ++
         this.readFileSync(filename, rootPath, stats, this.fileWriteLockList.length - 1)
       } else if (stats.isDirectory()) {
         await this.pauseOpenFile()
@@ -55,20 +58,21 @@ class CreateFilePathTree {
     };
     this.flatDataArr.push(dataJson); // 填充扁平数据
   
-    this.fileWriteLockList[fileWriteLockIndex] = 1
+    // this.fileWriteLockList[fileWriteLockIndex] = 1
+    this.fileWriteLock --
   }
 
   scanLock(){
     return new Promise((resolve, reject) => {
       const rebackCheck = () => {
         setTimeout(() => {
-          let progressCount = 0;
-          this.fileWriteLockList.forEach(item => {
-            item && progressCount ++
-          })
+          // let progressCount = 0;
+          // this.fileWriteLockList.forEach(item => {
+          //   item && progressCount ++
+          // })
           // console.log(this.fileWriteLockList)
           // console.log((progressCount / this.fileWriteLockList.length).toFixed(2) * 100 + '%')
-          if (this.fileWriteLockList.indexOf(0) === -1) {
+          if (this.fileWriteLock === 0 && !this.isPause) {
             resolve(true)
           } else {
             rebackCheck()
@@ -81,10 +85,12 @@ class CreateFilePathTree {
   }
 
   pauseOpenFile(){
+    this.isPause = true
     return new Promise((resolve, reject) => {
       const checkOpenFileExist = () => {
         setTimeout(() => {
-          if (this.fileWriteLockList.indexOf(0) === -1) {
+          if (this.fileWriteLock <= 100) {
+            this.isPause = false
             resolve(true)
           } else {
             checkOpenFileExist()
