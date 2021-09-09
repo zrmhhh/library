@@ -1,33 +1,30 @@
 const { moveFile, writeFile } = require('./lib/file-handle.js')
-const generateMD5 = require('./lib/file-utils.js')
-const CreateFilePathTree = require('./lib/get-file-path/index.js');
+const CreateFilePath = require('./lib/get-file-path/index.js');
 
 class FileLib {
-    static CreateFilePathTree = CreateFilePathTree
     /**
-     * create symbol to file
-     * @param {Array} filePathList 文件列表
+     * 生成file path tree
      */
-    createHash = async function createHash(filePathList){
-        filePathList.forEach( async file => {
-            let hash = await generateMD5(file.path);
-            file.hash = hash;
-            writeFile(`${_DIR_ROOT_}/_cache/filePathListHash.json`, filePathList);
-        })
-    }
+    static CreateFilePathTree = CreateFilePath
 
     /**
      * move 相同的文件
      * @param {*} filePathList 
      */
-    moveEqualFile = function moveEqualFile(filePathList){
-        filePathList.forEach(fileOne => {
-            filePathList.forEach(fileTwo => {
-                if (fileOne.hash === fileTwo.hash) {
-                    if (fileOne.name === fileTwo.name) return;
-                    moveFile(fileOne.path, `./new-delete/${fileOne.name}`)
-                }
-            })
+    moveEqualFile = function moveEqualFile(){
+        let filePathList = require('../_cache/filePathList.json');
+        filePathList.forEach(filePathData => {
+            if (filePathData && filePathData.length) {
+                console.log(filePathData)
+            }
+
+
+            // filePathList.forEach(fileTwo => {
+            //     if (fileOne.hash === fileTwo.hash) {
+            //         if (fileOne.name === fileTwo.name) return;
+            //         moveFile(fileOne.path, `${_DIR_ROOT_}/_delete/${fileOne.name}`)
+            //     }
+            // })
         })
     }
 
@@ -35,11 +32,12 @@ class FileLib {
      * move 匹配的文件
      * @param {*} filePathList 
      */
-    moveInvalidFile = function moveInvalidFile(filePathList){
-        filePathList.forEach(file => {
+    moveInvalidFile = function moveInvalidFile(){
+        let filePathList = require('../_cache/filePathList.json');
+        filePathList.forEach(filePathData => {
             let reg = /.png$/;
-            if (file.size === 0 || reg.test(file.name)) {
-                moveFile(file.path, `./delete/${file.name}`);
+            if (filePathData.size === 0 || reg.test(filePathData.name)) {
+                moveFile(filePathData.path, `${_DIR_ROOT_}/_delete/${filePathData.name}`);
             }
         })
     }

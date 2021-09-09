@@ -4,11 +4,11 @@ const { writeFile } = require('../file-handle.js');
 const { generateMD5 } = require('../file-utils.js');
 
 /**
- * 生成文件Path树
+ * 生成文件Path列表
  * @param {String} entryPath 文件夹或文件path
  * @returns undefined 返回undefined，生成JSON文件
  */
-class CreateFilePathTree {
+class CreateFilePathList {
   flatDataFilePathTree = {}; // 扁平数据
   fileOpenCount = 0; // 已打开的文件数量
   isPause = false;
@@ -20,12 +20,16 @@ class CreateFilePathTree {
   }
 
   async getPathTree(){
+    console.time('Run');
+
     let stats = fs.statSync(this.entryPath); // fs.statSync -> fs.state
     if(stats.isFile()) return console.log('must be directory!');
     this.readDirectorySync(this.entryPath);
 
     await this.scanLock()
     writeFile(`${_DIR_ROOT_}/_cache/filePathList.json`, this.flatDataFilePathTree);
+
+    console.timeEnd('Run');
   }
 
   readDirectorySync(dirPath) {
@@ -83,7 +87,7 @@ class CreateFilePathTree {
           } else {
             rebackCheck()
           }
-        }, 0);
+        }, 800);
       }
 
       rebackCheck()
@@ -115,4 +119,4 @@ class CreateFilePathTree {
 
 }
 
-module.exports = CreateFilePathTree;
+module.exports = CreateFilePathList;
