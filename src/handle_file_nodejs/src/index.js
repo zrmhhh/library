@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { moveFile, writeFile } = require('./lib/file-handle.js')
 const CreateFilePath = require('./lib/get-file-path/index.js');
 
@@ -11,35 +12,48 @@ class FileLib {
      * move 相同的文件
      * @param {*} filePathList 
      */
-    moveEqualFile = function moveEqualFile(){
+    static moveEqualFile(){
+        if (!fs.existsSync(`${_FILE_ROOT_}/_delete`)) fs.mkdirSync(`${_FILE_ROOT_}/_delete`)
         let filePathList = require('../_cache/filePathList.json');
-        filePathList.forEach(filePathData => {
+        for(let key in filePathList) {
+            let filePathData = filePathList[key] || {}
+
             if (filePathData && filePathData.length) {
                 console.log(filePathData)
+                filePathData.forEach(item => {
+                    moveFile(item.path, `${_FILE_ROOT_}/_delete/${item.name}`)
+                })
             }
-
-
-            // filePathList.forEach(fileTwo => {
-            //     if (fileOne.hash === fileTwo.hash) {
-            //         if (fileOne.name === fileTwo.name) return;
-            //         moveFile(fileOne.path, `${_DIR_ROOT_}/_delete/${fileOne.name}`)
-            //     }
-            // })
-        })
+        }
     }
 
     /**
      * move 匹配的文件
      * @param {*} filePathList 
      */
-    moveInvalidFile = function moveInvalidFile(){
-        let filePathList = require('../_cache/filePathList.json');
-        filePathList.forEach(filePathData => {
-            let reg = /.png$/;
-            if (filePathData.size === 0 || reg.test(filePathData.name)) {
-                moveFile(filePathData.path, `${_DIR_ROOT_}/_delete/${filePathData.name}`);
+    static moveMatchFile(){
+        const filePathList = require('../_cache/filePathList.json');
+
+        mainRun(filePathList)
+        function mainRun(list) {
+            for(let key in list) {
+                let item = list[key] || {}
+                matchFunc(item) && moveFile(item.path, `${_FILE_ROOT_}/_delete/${item.name}`)
+
+                if (item && item.length) {
+                    mainRun({...item})
+                }
             }
-        })
+        }
+        function matchFunc(filePathData){
+            // 根据后缀名匹配
+            // const reg = /.png$/;
+            // return reg.test(filePathData.name)
+
+            // 根据文件大小匹配
+            // const fileSize = 100; // MB
+            // return fileSize < filePathData.size;
+        }
     }
 }
 

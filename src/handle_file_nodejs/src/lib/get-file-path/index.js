@@ -17,6 +17,8 @@ class CreateFilePathList {
 
   constructor(entryPath){
     this.entryPath = entryPath
+
+    if (!fs.existsSync(`${_DIR_ROOT_}/_cache`)) fs.mkdirSync(`${_DIR_ROOT_}/_cache`)
   }
 
   async getPathTree(){
