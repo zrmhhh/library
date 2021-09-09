@@ -6,21 +6,21 @@ const fs = require('fs'); // 引入fs模块
  */
 function removeFile(path) {
 	let files = [];
-	if(fs.existsSync(path)) {
-		files = fs.readdirSync(path);
-		files.forEach( file => {
-			let curPath = path + "/" + file;
-			if(fs.statSync(curPath).isDirectory()) {
-				// 递归删除文件夹内文件
-				removeFile(curPath);
-			} else {
-				// delete file
-				// fs.unlinkSync(curPath);
-			}
-		});
-		// 删除目录
-		// fs.rmdirSync(path);
-    }
+	if(!fs.existsSync(path)) return console.log('file no`t exists!');
+
+	files = fs.readdirSync(path);
+	files.forEach(file => {
+		let curPath = path + "/" + file;
+		if(fs.statSync(curPath).isDirectory()) {
+			// 递归删除文件夹内文件
+			removeFile(curPath);
+		} else {
+			// 删除文件（删除文件软连接）
+			// fs.unlinkSync(curPath);
+		}
+	});
+	// 删除目录
+	// fs.rmdirSync(path);
 }
 
 /**
