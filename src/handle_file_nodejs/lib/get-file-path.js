@@ -5,6 +5,7 @@ const { generateMD5 } = require('./file-utils.js');
 
 let flatDataArr = []; // 扁平数据
 let fileWriteLockList = []
+let isLock = false
 
 /**
  * 生成文件Path树
@@ -30,7 +31,7 @@ function scanLock(){
           item && progressCount ++
         })
         console.log((progressCount / fileWriteLockList.length).toFixed(2) * 100 + '%')
-        if (fileWriteLockList.indexOf(0) === -1) {
+        if (fileWriteLockList.indexOf(0) === -1 && !isLock) {
           resolve(true)
         } else {
           rebackCheck()
@@ -40,10 +41,25 @@ function scanLock(){
   })
 }
 
+function pauseOpenFile(){
+  return new Promise((resolve, reject) => {
+    checkOpenFileExist()
+    function checkOpenFileExist(){
+      setTimeout(() => {
+        if (fileWriteLockList.indexOf(0) === -1) {
+          resolve(true)
+        } else {
+          checkOpenFileExist()
+        }
+      }, 0);
+    }
+  })
+}
+
 // sync get list
 function readDirectorySync(dirPath) {
   let files = fs.readdirSync(dirPath);
-  files.forEach(filename => {
+  files.forEach(async filename => {
     let rootPath = path.resolve(path.join(dirPath, filename));
     let stats = fs.statSync(rootPath);
 
@@ -51,7 +67,7 @@ function readDirectorySync(dirPath) {
       fileWriteLockList.push(0)
       readFileSync(filename, rootPath, stats, fileWriteLockList.length - 1)
     } else if (stats.isDirectory()) {
-      readDirectorySync(rootPath);
+      await pauseOpenFile() && readDirectorySync(rootPath);
     }
   });
 }
