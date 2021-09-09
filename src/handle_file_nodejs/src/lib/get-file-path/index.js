@@ -10,7 +10,6 @@ const { generateMD5 } = require('../file-utils.js');
  */
 class CreateFilePathTree {
   flatDataArr = []; // 扁平数据
-  fileWriteLockList = [];
   fileWriteLock = 0;
   isPause = false;
 
@@ -36,9 +35,8 @@ class CreateFilePathTree {
       let stats = fs.statSync(rootPath);
   
       if (stats.isFile()) {
-        // this.fileWriteLockList.push(0)
         this.fileWriteLock ++
-        this.readFileSync(filename, rootPath, stats, this.fileWriteLockList.length - 1)
+        this.readFileSync(filename, rootPath, stats)
       } else if (stats.isDirectory()) {
         await this.pauseOpenFile()
         // console.log('xxxx')
@@ -58,7 +56,6 @@ class CreateFilePathTree {
     };
     this.flatDataArr.push(dataJson); // 填充扁平数据
   
-    // this.fileWriteLockList[fileWriteLockIndex] = 1
     this.fileWriteLock --
   }
 
@@ -66,12 +63,7 @@ class CreateFilePathTree {
     return new Promise((resolve, reject) => {
       const rebackCheck = () => {
         setTimeout(() => {
-          // let progressCount = 0;
-          // this.fileWriteLockList.forEach(item => {
-          //   item && progressCount ++
-          // })
-          // console.log(this.fileWriteLockList)
-          // console.log((progressCount / this.fileWriteLockList.length).toFixed(2) * 100 + '%')
+          console.log(this.fileWriteLock)
           if (this.fileWriteLock === 0 && !this.isPause) {
             resolve(true)
           } else {
