@@ -11,7 +11,6 @@ const { generateMD5 } = require('./file-utils.js');
 class CreateFilePathTree {
   flatDataArr = []; // 扁平数据
   fileWriteLockList = [];
-  isLock = false;
 
   entryPath = '';
 
@@ -25,7 +24,7 @@ class CreateFilePathTree {
     this.readDirectorySync(this.entryPath);
 
     await this.scanLock()
-    writeFile(`${_DIR_ROOT_}/_cache/filePathList.json`, flatDataArr);
+    writeFile(`${_DIR_ROOT_}/_cache/filePathList.json`, this.flatDataArr);
   }
 
   scanLock(){
@@ -36,8 +35,9 @@ class CreateFilePathTree {
           this.fileWriteLockList.forEach(item => {
             item && progressCount ++
           })
-          console.log((progressCount / this.fileWriteLockList.length).toFixed(2) * 100 + '%')
-          if (this.fileWriteLockList.indexOf(0) === -1 && !isLock) {
+          // console.log(this.fileWriteLockList)
+          // console.log((progressCount / this.fileWriteLockList.length).toFixed(2) * 100 + '%')
+          if (this.fileWriteLockList.indexOf(0) === -1) {
             resolve(true)
           } else {
             rebackCheck()
@@ -75,13 +75,15 @@ class CreateFilePathTree {
         this.fileWriteLockList.push(0)
         this.readFileSync(filename, rootPath, stats, this.fileWriteLockList.length - 1)
       } else if (stats.isDirectory()) {
-        await this.pauseOpenFile() && this.readDirectorySync(rootPath);
+        await this.pauseOpenFile()
+        // console.log('xxxx')
+        this.readDirectorySync(rootPath);
       }
     });
   }
 
   async readFileSync(filename, rootPath, stats, fileWriteLockIndex) {
-    hash = await generateMD5(rootPath);
+    let hash = await generateMD5(rootPath);
     let dataJson = {
       name: filename,
       path: rootPath,
@@ -89,7 +91,7 @@ class CreateFilePathTree {
       size: stats.size / 1024 / 1024, // MB
       size_bit: stats.size // bit
     };
-    flatDataArr.push(dataJson); // 填充扁平数据
+    this.flatDataArr.push(dataJson); // 填充扁平数据
   
     this.fileWriteLockList[fileWriteLockIndex] = 1
   }
