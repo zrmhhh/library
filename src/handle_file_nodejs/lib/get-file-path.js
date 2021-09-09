@@ -3,22 +3,26 @@ const path = require('path');
 const { writeFile } = require('./file-handle.js');
 const { generateMD5 } = require('./file-utils.js');
 
+/**
+ * 生成文件Path树
+ * @param {String} entryPath 文件夹或文件path
+ * @returns undefined 返回undefined，生成JSON文件
+ */
 class CreateFilePathTree {
   flatDataArr = []; // 扁平数据
   fileWriteLockList = [];
   isLock = false;
 
-  constructor(){}
+  entryPath = '';
 
-  /**
-   * 生成文件Path树
-   * @param {String} entryPath 文件夹或文件path
-   * @returns undefined 返回undefined，生成JSON文件
-   */
-  async run(entryPath){
-    let stats = fs.statSync(entryPath); // fs.statSync -> fs.state
+  constructor(entryPath){
+    this.entryPath = entryPath
+  }
+
+  async getPathTree(){
+    let stats = fs.statSync(this.entryPath); // fs.statSync -> fs.state
     if(stats.isFile()) return console.log('must be directory!');
-    this.readDirectorySync(entryPath);
+    this.readDirectorySync(this.entryPath);
 
     await this.scanLock()
     writeFile(`${_DIR_ROOT_}/_cache/filePathList.json`, flatDataArr);
