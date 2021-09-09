@@ -1,19 +1,17 @@
-global._DIR_ROOT_ = __dirname;
-global._FILE_ROOT_ = 'D:';
+global._RUNTIME_ROOT_ = __dirname; // 代码运行的根目录
+global._DRIVE_ROOT_ = 'D:'; // 操作文件的盘符
 
 const FileLib = require('./src/index.js');
 
 // 生成File Path List
-// let getFilePathTree = new FileLib.CreateFilePathTree(`${_FILE_ROOT_}/Downloads`); // C:/Users/Administrator/Desktop/github
+// let getFilePathTree = new FileLib.CreateFilePathTree(`${_DRIVE_ROOT_}/Downloads`);
 // getFilePathTree.getPathTree();
 
-// 移动相同文件到根盘符的_delete目录下
+// 移动相同的文件到根盘符的_delete目录下
 // FileLib.moveEqualFile()
 
+// 移动匹配的文件到根盘符的_delete目录下
+// FileLib.moveMatchFile()
 
-// let arr = []
-// filePathListData.forEach(fileItem => {
-//     fileItem.size > 1024000 && arr.push(fileItem)
-// })
-// console.log(arr)
+
 

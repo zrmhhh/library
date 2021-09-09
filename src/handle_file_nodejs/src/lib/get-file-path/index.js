@@ -18,7 +18,7 @@ class CreateFilePathList {
   constructor(entryPath){
     this.entryPath = entryPath
 
-    if (!fs.existsSync(`${_DIR_ROOT_}/_cache`)) fs.mkdirSync(`${_DIR_ROOT_}/_cache`)
+    if (!fs.existsSync(`${_RUNTIME_ROOT_}/_cache`)) fs.mkdirSync(`${_RUNTIME_ROOT_}/_cache`)
   }
 
   async getPathTree(){
@@ -29,7 +29,7 @@ class CreateFilePathList {
     this.readDirectorySync(this.entryPath);
 
     await this.scanLock()
-    writeFile(`${_DIR_ROOT_}/_cache/filePathList.json`, this.flatDataFilePathTree);
+    writeFile(`${_RUNTIME_ROOT_}/_cache/filePathList.json`, this.flatDataFilePathTree);
 
     console.timeEnd('Run');
   }
