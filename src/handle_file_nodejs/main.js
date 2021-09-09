@@ -4,8 +4,7 @@ global._DRIVE_ROOT_ = 'D:'; // 操作文件的盘符
 const FileLib = require('./src/index.js');
 
 // 生成File Path List
-// let getFilePathTree = new FileLib.CreateFilePathTree(`${_DRIVE_ROOT_}/Downloads`);
-// getFilePathTree.getPathTree();
+// FileLib.createFilePath()
 
 // 移动相同的文件到根盘符的_delete目录下
 // FileLib.moveEqualFile()

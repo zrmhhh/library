@@ -7,7 +7,8 @@ class FileLib {
      * 生成file path tree
      */
     static createFilePath() {
-
+        let getFilePathTree = new CreateFilePath(`${_DRIVE_ROOT_}/Downloads`);
+        getFilePathTree.getPathTree();
     }
 
     /**
