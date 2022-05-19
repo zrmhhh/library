@@ -47,24 +47,18 @@
             <br>
         </div>
 
-        <div class="preach" v-if="isRepayment">
+        <div class="preach" v-if="everyMonthList.length">
             <ul class="preach-col preach-header">
-                <li class="w-1">第几月</li>
+                <li class="w-1">期数</li>
                 <li class="w-2">本金</li>
                 <li class="w-3">利息</li>
                 <li class="w-4">剩余贷款</li>
             </ul>
-            <ul class="preach-col">
-                <li class="w-1">title</li>
-                <li class="w-2">content</li>
-                <li class="w-3">time</li>
-                <li class="w-4">time</li>
-            </ul>
-            <ul class="preach-col">
-                <li class="w-1">title</li>
-                <li class="w-2">content</li>
-                <li class="w-3">time</li>
-                <li class="w-4">time</li>
+            <ul class="preach-col" v-for="(item, index) in everyMonthList" :key="index">
+                <li class="w-1">{{ `第${index + 1}期` }}</li>
+                <li class="w-2">{{ item.debtMoneyMonth }}</li>
+                <li class="w-3">{{ item.interestMonth }}</li>
+                <li class="w-4">{{ item.remainDebtMoneyTotal }}</li>
             </ul>
         </div>
     </div>
@@ -75,7 +69,7 @@
         el: '#app',
         data(){
             return {
-                isRepayment: true, // 是否还款
+                isRepayment: false, // 是否还款
                 totalLoans: 1180000, // 贷款金额
 
                 howMonth: 0,
@@ -84,7 +78,9 @@
 
                 repaymentMonth: 0, // 月供
                 principal: 0, // 本金
-                interestTotal: 0, // 总利息
+                interestTotal: 0, // 总利息,
+
+                everyMonthList: []
             }
         },
         methods: {
@@ -95,9 +91,17 @@
                 this.principal = Math.round(obj.repaymentTotal - obj.interestTotal)
                 this.interestTotal = Math.round(obj.interestTotal)
 
+                // 还款明细
+                let detailObj = computeDetail(this.totalLoans, this.repaymentMonth)
+                this.everyMonthList.push(detailObj)
+
                 // 提前还款
                 if (!this.isRepayment) return;
                 this.remainMoney = Math.round(computeMonthly(this.totalLoans, this.howMonth, this.howMoney))
+                obj = computeTotal(this.remainMoney)
+                this.repaymentMonth = Math.round(obj.repaymentMonth)
+                this.principal = Math.round(obj.repaymentTotal - obj.interestTotal)
+                this.interestTotal = Math.round(obj.interestTotal)
             }
         }
     })
