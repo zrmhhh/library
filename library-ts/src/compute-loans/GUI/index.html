@@ -34,11 +34,11 @@
         </div>
 
         <div style="text-align: center;">
-            <p>月供：1234</p>
-            <p>总共需要还多少钱：1234</p>
-            <p>总共要还多少利息：1234</p>
+            <p>月供：{{ repaymentMonth }}</p>
+            <p>本金：{{ principal }}</p>
+            <p>总利息：{{ interestTotal }}</p>
             <br>
-            <p>剩余贷款：1234</p>
+            <!-- <p>剩余贷款：{{ repaymentMonth }}</p> -->
         </div>
 
         <div class="preach">
@@ -69,13 +69,20 @@
         el: '#app',
         data(){
             return {
-                totalLoans: 0
+                totalLoans: 1180000, // 贷款金额
+
+                repaymentMonth: 0, // 月供
+                principal: 0, // 本金
+                interestTotal: 0, // 总利息
             }
         },
         methods: {
             onCompute(){
-                console.log(this.totalLoans)
-                console.log(computeTotal(this.totalLoans))
+                let obj = computeTotal(this.totalLoans)
+
+                this.repaymentMonth = Math.round(obj.repaymentMonth)
+                this.principal = Math.round(obj.repaymentTotal - obj.interestTotal)
+                this.interestTotal = Math.round(obj.interestTotal)
             }
         }
     })

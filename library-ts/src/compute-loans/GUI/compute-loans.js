@@ -21,7 +21,11 @@ function computeTotal(debtMoneyTotalParam) {
     var repaymentMonth = debtMoneyTotalParam * (fractionUp / fractionDown); // 每月需要还款多少
     var repaymentTotal = repaymentMonth * monthTotal; // 总共需要还多少钱（本金+利息）
     var interestTotal = repaymentTotal - debtMoneyTotalParam; // 总共要还多少利息（贷款利息）
-    return { repaymentMonth: repaymentMonth, repaymentTotal: repaymentTotal, interestTotal: interestTotal };
+    return { 
+        repaymentMonth: repaymentMonth,
+        repaymentTotal: repaymentTotal,
+        interestTotal: interestTotal
+    };
 }
 /*********************** * **************************/
 /**
