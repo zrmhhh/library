@@ -24,7 +24,7 @@
     <div id="app">
         <div class="compute">
             <p>
-                总贷款：<input type="text">
+                总贷款：<input type="text" v-model="totalLoans">
             </p>
             <p>
                 多少月后：<input type="text">
@@ -69,12 +69,13 @@
         el: '#app',
         data(){
             return {
-
+                totalLoans: 0
             }
         },
         methods: {
             onCompute(){
-                console.log(computeTotal(1180000))
+                console.log(this.totalLoans)
+                console.log(computeTotal(this.totalLoans))
             }
         }
     })
