@@ -5,9 +5,78 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <link rel="stylesheet" href="./css/index.css">
+    <style>
+        .compute {
+            padding-top: 160px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .compute button {
+            margin-top: 50px;
+            padding: 2px 6px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    
+    <div id="app">
+        <div class="compute">
+            <p>
+                总贷款：<input type="text">
+            </p>
+            <p>
+                多少月后：<input type="text">
+                还款多少：<input type="text">
+            </p>
+            <button @click="onCompute">计算</button>
+        </div>
+
+        <div style="text-align: center;">
+            <p>月供：1234</p>
+            <p>总共需要还多少钱：1234</p>
+            <p>总共要还多少利息：1234</p>
+            <br>
+            <p>剩余贷款：1234</p>
+        </div>
+
+        <div class="preach">
+            <ul class="preach-col preach-header">
+                <li class="w-1">第几月</li>
+                <li class="w-2">本金</li>
+                <li class="w-3">利息</li>
+                <li class="w-4">剩余贷款</li>
+            </ul>
+            <ul class="preach-col">
+                <li class="w-1">title</li>
+                <li class="w-2">content</li>
+                <li class="w-3">time</li>
+                <li class="w-4">time</li>
+            </ul>
+            <ul class="preach-col">
+                <li class="w-1">title</li>
+                <li class="w-2">content</li>
+                <li class="w-3">time</li>
+                <li class="w-4">time</li>
+            </ul>
+        </div>
+    </div>
 </body>
 <script src="./compute-loans.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data(){
+            return {
+
+            }
+        },
+        methods: {
+            onCompute(){
+                console.log(computeTotal(1180000))
+            }
+        }
+    })
+</script>
 </html>
