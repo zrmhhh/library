@@ -56,9 +56,9 @@
             </ul>
             <ul class="preach-col" v-for="(item, index) in everyMonthList" :key="index">
                 <li class="w-1">{{ `第${index + 1}期` }}</li>
-                <li class="w-2">{{ item.debtMoneyMonth }}</li>
-                <li class="w-3">{{ item.interestMonth }}</li>
-                <li class="w-4">{{ item.remainDebtMoneyTotal }}</li>
+                <li class="w-2">{{ Math.round(item.debtMoneyMonth) }}</li>
+                <li class="w-3">{{ Math.round(item.interestMonth) }}</li>
+                <li class="w-4">{{ Math.round(item.remainDebtMoneyTotal) }}</li>
             </ul>
         </div>
     </div>
@@ -92,8 +92,12 @@
                 this.interestTotal = Math.round(obj.interestTotal)
 
                 // 还款明细
-                let detailObj = computeDetail(this.totalLoans, this.repaymentMonth)
-                this.everyMonthList.push(detailObj)
+                // let remainDebtMoneyTotal = this.totalLoans
+                // for (let i = 0; i < 100; i++) {
+                //     let detailObj = computeDetail(remainDebtMoneyTotal, this.repaymentMonth)
+                //     remainDebtMoneyTotal = detailObj.remainDebtMoneyTotal // 剩余贷款
+                //     this.everyMonthList.push(detailObj)
+                // }
 
                 // 提前还款
                 if (!this.isRepayment) return;
@@ -102,6 +106,14 @@
                 this.repaymentMonth = Math.round(obj.repaymentMonth)
                 this.principal = Math.round(obj.repaymentTotal - obj.interestTotal)
                 this.interestTotal = Math.round(obj.interestTotal)
+
+                // 还款明细
+                let remainDebtMoneyTotal = this.remainMoney
+                for (let i = 0; i < 100; i++) {
+                    let detailObj = computeDetail(remainDebtMoneyTotal, this.repaymentMonth)
+                    remainDebtMoneyTotal = detailObj.remainDebtMoneyTotal // 剩余贷款
+                    this.everyMonthList.push(detailObj)
+                }
             }
         }
     })
