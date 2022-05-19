@@ -92,12 +92,12 @@
                 this.interestTotal = Math.round(obj.interestTotal)
 
                 // 还款明细
-                // let remainDebtMoneyTotal = this.totalLoans
-                // for (let i = 0; i < 100; i++) {
-                //     let detailObj = computeDetail(remainDebtMoneyTotal, this.repaymentMonth)
-                //     remainDebtMoneyTotal = detailObj.remainDebtMoneyTotal // 剩余贷款
-                //     this.everyMonthList.push(detailObj)
-                // }
+                let remainDebtMoneyTotal = this.totalLoans
+                for (let i = 0; i < 100; i++) {
+                    let detailObj = computeDetail(remainDebtMoneyTotal, this.repaymentMonth)
+                    remainDebtMoneyTotal = detailObj.remainDebtMoneyTotal // 剩余贷款
+                    this.everyMonthList.push(detailObj)
+                }
 
                 // 提前还款
                 if (!this.isRepayment) return;
@@ -108,7 +108,8 @@
                 this.interestTotal = Math.round(obj.interestTotal)
 
                 // 还款明细
-                let remainDebtMoneyTotal = this.remainMoney
+                this.everyMonthList = []
+                remainDebtMoneyTotal = this.remainMoney
                 for (let i = 0; i < 100; i++) {
                     let detailObj = computeDetail(remainDebtMoneyTotal, this.repaymentMonth)
                     remainDebtMoneyTotal = detailObj.remainDebtMoneyTotal // 剩余贷款
