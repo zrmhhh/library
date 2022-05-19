@@ -1,9 +1,12 @@
-function sayMyName(name: string): void {
-    if (name === "Heisenberg") {
-        console.log("You're right 👍");
-    } else {
-        console.log("You're wrong 👎");
-    }
-}
+import Koa from 'koa';
 
-sayMyName("Heisenberg");
+const server: Koa = new Koa();
+const port: number = 3000;
+
+server.use((ctx: Koa.DefaultContext) => {
+    ctx.body = 'balalalalal';
+});
+
+server.listen(port, () => {
+    console.log(`Node.js v${process.versions.node}`);
+});
