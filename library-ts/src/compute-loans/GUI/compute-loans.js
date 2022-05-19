@@ -9,27 +9,33 @@
 var debtMoneyTotalOrigin = 1180000;
 var monthRate = 0.0588 / 12;
 var monthTotal = 30 * 12;
-
-
+/**
+ * 计算总共要还多少钱
+ * @param debtMoneyTotalParam 贷了多少钱
+ * @returns {object} 每月需要还款多少、总共需要还多少钱、总共要还多少利息
+ */
 function computeTotal(debtMoneyTotalParam) {
     var commonVar = Math.pow((1 + monthRate), monthTotal);
-    var fractionUp = monthRate * commonVar;
-    var fractionDown = commonVar - 1;
-    var repaymentMonth = debtMoneyTotalParam * (fractionUp / fractionDown);
-    var repaymentTotal = repaymentMonth * monthTotal;
-    var interestTotal = repaymentTotal - debtMoneyTotalParam;
-    // console.log(repaymentMonth, repaymentTotal, interestTotal);
-    return repaymentMonth;
+    var fractionUp = monthRate * commonVar; // 公式上半部分
+    var fractionDown = commonVar - 1; // 公式下半部分
+    var repaymentMonth = debtMoneyTotalParam * (fractionUp / fractionDown); // 每月需要还款多少
+    var repaymentTotal = repaymentMonth * monthTotal; // 总共需要还多少钱（本金+利息）
+    var interestTotal = repaymentTotal - debtMoneyTotalParam; // 总共要还多少利息（贷款利息）
+    return { repaymentMonth: repaymentMonth, repaymentTotal: repaymentTotal, interestTotal: interestTotal };
 }
 /*********************** * **************************/
+/**
+ * 计算每月还款的明细
+ * @param debtMoneyTotalParam 总贷款
+ * @param repaymentMonth 每月需要还款多少
+ * @returns {object} 每月利息、月供中本金是多少、每月交完月供后还剩多少贷款
+ */
 function computeDetail(debtMoneyTotalParam, repaymentMonth) {
-    var interestMonth = debtMoneyTotalParam * monthRate;
-    var debtMoneyMonth = repaymentMonth - interestMonth;
-    var remainDebtMoneyTotal = debtMoneyTotalParam - debtMoneyMonth;
-    // console.log(interestMonth, debtMoneyMonth, remainDebtMoneyTotal)
-    return remainDebtMoneyTotal;
+    var interestMonth = debtMoneyTotalParam * monthRate; // 每月利息
+    var debtMoneyMonth = repaymentMonth - interestMonth; // 月供中本金是多少
+    var remainDebtMoneyTotal = debtMoneyTotalParam - debtMoneyMonth; // 每月交完月供后还剩多少贷款
+    return { interestMonth: interestMonth, debtMoneyMonth: debtMoneyMonth, remainDebtMoneyTotal: remainDebtMoneyTotal };
 }
-
 /**
  * 多少个月后，还入多少钱，还剩多少贷款
  * @param {number} debtMoneyTotalParam 总贷款
@@ -39,18 +45,17 @@ function computeDetail(debtMoneyTotalParam, repaymentMonth) {
  */
 function computeMonthly(debtMoneyTotalParam, month, minusMoney) {
     if (minusMoney === void 0) { minusMoney = 0; }
-    var remainDebtMoneyTotal = debtMoneyTotalParam;
-    var repaymentMonth = computeTotal(debtMoneyTotalParam);
+    var remainDebtMoneyTotal = debtMoneyTotalParam; // 剩余贷款
+    var repaymentMonth = computeTotal(debtMoneyTotalParam).repaymentMonth;
     for (var i = 1; i <= month; i++) {
-        remainDebtMoneyTotal = computeDetail(remainDebtMoneyTotal, repaymentMonth);
+        remainDebtMoneyTotal = computeDetail(remainDebtMoneyTotal, repaymentMonth).remainDebtMoneyTotal;
     }
-    // console.log(remainDebtMoneyTotal)
     return remainDebtMoneyTotal - minusMoney;
 }
-// var aaa = computeMonthly(debtMoneyTotalOrigin, 18, 300000);
+// let aaa = computeMonthly(debtMoneyTotalOrigin, 18, 300000)
 // let bbb = computeMonthly(aaa, 12, 200000)
 // let ccc = computeMonthly(bbb, 12, 200000)
 // let ddd = computeMonthly(ccc, 12, 200000)
 // let eee = computeMonthly(ddd, 12, 200000)
 // let fff = computeMonthly(eee, 12, 100000)
-// console.log(computeMonthly(aaa, 1));
+// console.log(computeMonthly(aaa, 1))
