@@ -1,12 +1,3 @@
-import Koa from 'koa';
+import countdown from './tools/countdown'
 
-const server: Koa = new Koa();
-const port: number = 3000;
-
-server.use((ctx: Koa.DefaultContext) => {
-    ctx.body = 'balalalalal';
-});
-
-server.listen(port, () => {
-    console.log(`Node.js v${process.versions.node}`);
-});
+console.log('-------------------->', countdown(1652947221742))
