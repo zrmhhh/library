@@ -26,9 +26,14 @@
             <p>
                 总贷款：<input type="text" v-model="totalLoans">
             </p>
-            <p>
-                多少月后：<input type="text">
-                还款多少：<input type="text">
+            <!-- <input type="checkbox" name="还款" id=""> -->
+            <div style="padding: 20px; font-size: 14px; cursor: pointer;" @click="isRepayment = !isRepayment">
+                <input style="vertical-align: middle;" type="checkbox" v-model="isRepayment">
+                <span style="vertical-align: middle;">提前还款</span>
+            </div>
+            <p v-if="isRepayment">
+                多少月后：<input type="text" v-model="howMonth">
+                还款金额：<input type="text" v-model="howMoney">
             </p>
             <button @click="onCompute">计算</button>
         </div>
@@ -38,10 +43,11 @@
             <p>本金：{{ principal }}</p>
             <p>总利息：{{ interestTotal }}</p>
             <br>
-            <!-- <p>剩余贷款：{{ repaymentMonth }}</p> -->
+            <p v-if="isRepayment">剩余贷款：{{ remainMoney }}</p>
+            <br>
         </div>
 
-        <div class="preach">
+        <div class="preach" v-if="isRepayment">
             <ul class="preach-col preach-header">
                 <li class="w-1">第几月</li>
                 <li class="w-2">本金</li>
@@ -69,7 +75,12 @@
         el: '#app',
         data(){
             return {
+                isRepayment: true, // 是否还款
                 totalLoans: 1180000, // 贷款金额
+
+                howMonth: 0,
+                howMoney: 0,
+                remainMoney: 0, // 剩余贷款
 
                 repaymentMonth: 0, // 月供
                 principal: 0, // 本金
@@ -78,11 +89,15 @@
         },
         methods: {
             onCompute(){
+                // 计算月供
                 let obj = computeTotal(this.totalLoans)
-
                 this.repaymentMonth = Math.round(obj.repaymentMonth)
                 this.principal = Math.round(obj.repaymentTotal - obj.interestTotal)
                 this.interestTotal = Math.round(obj.interestTotal)
+
+                // 提前还款
+                if (!this.isRepayment) return;
+                this.remainMoney = Math.round(computeMonthly(this.totalLoans, this.howMonth, this.howMoney))
             }
         }
     })
