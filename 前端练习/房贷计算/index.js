@@ -13,4 +13,8 @@ var top = ((1 + R) ** N) * R
 var bottom = (1 + R) ** N - 1
 var total = P * (top / bottom)
 
+function computeTotal(){
+    
+}
+
 console.log(total);
