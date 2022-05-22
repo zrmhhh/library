@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="firstNum">
+    <select id="operator">
+        <option value="plus">+</option>
+        <option value="minus">-</option>
+        <option value="multiply">*</option>
+        <option value="division">/</option>
+    </select>
+    <input type="text" id="secondNum">
+    <button id="compute">计算</button>
+    <p>
+        结果：
+        <span id="result">0</span>
+    </p>
+</body>
+<script lang="js">
+    var firstNumEl = document.getElementById('firstNum');
+    var operatorEl = document.getElementById('operator');
+    var secondNumEl = document.getElementById('secondNum');
+    var computeEl = document.getElementById('compute');
+    var resultEl = document.getElementById('result');
+
+    computeEl.addEventListener('click', function(){
+        var firstNum = Number(firstNumEl.value)
+        var secondNum = Number(secondNumEl.value)
+        var operator = operatorEl.value
+        console.log(operator);
+
+        var result = 0;
+        if (operator === 'plus') {
+            result = firstNum + secondNum;
+        } else if (operator === 'minus') {
+            result = firstNum - secondNum;
+        } else if (operator === 'multiply') {
+            result = firstNum * secondNum;
+        } else if (operator === 'division') {
+            result = firstNum / secondNum;
+        }
+
+        resultEl.innerHTML = result
+    })
+</script>
+</html>

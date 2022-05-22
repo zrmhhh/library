@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS基础</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var aNum = 2;
+    var aStr = '2';
+    var aBol = false;
+
+    // var aArr = [1, 2, 10];
+    var aArr = [
+        {
+            a: 'zzz',
+            b: '111',
+            c: '999'
+        },
+        {
+            a: 'yyy',
+            b: '222'
+        },
+        {
+            a: 'xxx'
+        }
+    ];
+    var aObj = {a: 1, b: 10};
+    var aFn = function(){
+        return 123;
+    }
+
+    // 数组遍历1
+    // for(var i = 0; i < aArr.length; i ++) {
+    //     var item = aArr[i]
+    //     console.log(item)
+    // }
+    // 数组遍历
+    aArr.forEach(function(item) {
+        console.log(item)
+    })
+    // 对象的遍历
+    // for (const key in aObj) {
+    //     const item = aObj[key];
+    //     console.log(item)
+    // }
+
+    // 数组基本操作
+    // aArr.push('a')
+    // aArr.pop()
+    // console.log(aArr)
+</script>
+</html>

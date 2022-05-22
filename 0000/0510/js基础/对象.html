@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对象</title>
+</head>
+<body>
+    <a href="#" id="phone">查手机</a>
+</body>
+<script>
+    function callCameraFn() {} // 拍照
+    function callPhoneFn(){
+        // 打电话
+        var number = prompt('请输入电话号码：');
+        if (/^1\d{10}/.test(number)) {
+            alert('正在呼叫：' + number)
+        } else {
+            alert('号码输入错误！')
+        }
+    }
+
+    var iphone6 = {
+        type: 'iphone6',
+        size: '6英寸',
+        color: 'black',
+        price: 3500,
+        callCamera: callCameraFn,
+        callPhone: callPhoneFn
+    }
+    var iphone8 = {
+        type: 'iphone8',
+        size: '8英寸',
+        color: 'blue',
+        price: 4500,
+        callCamera: callCameraFn,
+        callPhone: callPhoneFn
+    }
+    var iphoneX = {
+        type: 'iphoneX',
+        size: '12英寸',
+        color: 'black',
+        price: 8500,
+        callCamera: callCameraFn,
+        callPhone: callPhoneFn
+    }
+    var phoneList = [
+        iphone6,
+        iphone8,
+        iphoneX
+    ]
+
+
+    var aEl = document.getElementById('phone')
+    aEl.addEventListener('click', iphone6.callPhone)
+    // aEl.addEventListener('click', function(){
+    //     var priceRange = prompt('请输入价格区间：'); // string 500-8000
+    //     var minPrice = priceRange.split('-')[0]
+    //     var maxPrice = priceRange.split('-')[1]
+
+    //     var findPhones = []
+    //     phoneList.forEach(item => {
+    //         if (item.price >= Number(minPrice) && item.price <= Number(maxPrice)) {
+    //             findPhones.push(item)
+    //         }
+    //     })
+    //     if (!findPhones.length) {
+    //         alert('查找失败')
+    //     } else {
+    //         // var arrTemp = [] // ['iphone8', 'ipone6']
+    //         // findPhones.forEach(item => {
+    //         //     arrTemp.push(item.type)
+    //         // })
+    //         // alert(arrTemp.join(', '))
+    //         alert(findPhones.map(v => v.type).join(', '))
+    //     }
+    // })
+</script>
+</html>

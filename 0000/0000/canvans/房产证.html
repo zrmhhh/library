@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<canvas id="canvas" width="500" height="500"></canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+		var img = new Image();
+		img.src = "img/24F27BA52D6D0E6BAB1759E3FB7CEF94.jpg";
+		img.onload = function(){
+			context.drawImage(img,0,0);
+			context.fillStyle = "rgb(136,128,123)";
+			context.fillText("赵洋",180,122);
+			var imgUrl = canvas.toDataURL();//返回一个新的图片路径
+			var img1 = new Image();
+			img1.src = imgUrl;
+			img1.onload = function(){
+//				var body = document.getElementsByTagName("body")[0];
+//				body.appendChild(img1);
+//				body.removeChild(canvas);
+			}
+		}
+	</script>
+</html>

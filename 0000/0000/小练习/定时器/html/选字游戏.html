@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>选字游戏</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		body{
+			width:100vw;
+			height:100vh;
+		}
+		#main2{
+			width:400px;
+			height:500px;
+			background-color:#ccc;
+			padding:25px;
+			position:absolute;
+			left:0px;
+			top:0px;
+			right:0px;
+			bottom:0px;
+			margin:auto;
+			display:none;
+			font-size:100px;
+			text-align:center;
+			line-height:200px;
+			z-index:10;
+		}
+		#main{
+			width:400px;
+			height:500px;
+			background-color:#ccc;
+			padding:25px;
+			position:absolute;
+			left:0px;
+			top:0px;
+			right:0px;
+			bottom:0px;
+			margin:auto;
+		}
+		#main p:nth-child(1){
+			float:left;
+		}
+		#main p:nth-child(2){
+			float:right;
+		}
+		#font{
+			font-size:150px;
+			text-align:center;
+			margin:50px;
+		}
+		#color{
+			position:absolute;
+			bottom:55px;
+		}
+		#color div{
+			float:left;
+			font-size:70px;
+			margin-right:15px;
+			cursor:pointer;
+		}
+	</style>
+</head>
+<body>
+	<div id="main">
+		<p>剩余时间：<span id="time">20</span></p>
+		<p>完成：<span id="success">0</span></p>
+		<div id="font">绿</div>
+		<div id="explain">根据上面的字的颜色从下面选择正确的字，选择正确自动开始</div>
+		<div id="color">
+			<div>红</div>
+			<div>黄</div>
+			<div>蓝</div>
+			<div>绿</div>
+			<div>黑</div>
+		</div>
+	</div>
+	<div id = "main2">GAME OVER</div>
+</body>
+	<script src = "../js/选字游戏.js"></script>
+</html>

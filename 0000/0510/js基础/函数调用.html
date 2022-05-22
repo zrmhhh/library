@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数调用</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var aArr = [
+        'aaa',
+        'bbb'
+    ];
+    var aObj = {
+        a: '1',
+        b: '2',
+        c: aArr
+    }
+    var bObj = {
+        a: aObj,
+        b: aArr
+    }
+
+    function aFn(a, b){
+        console.log(a, b);
+    };
+    function bFn(fnA, c) {
+        c(3, 6)
+    };
+    // bFn(123, function(){
+    //     console.log('我是bFn中的c')
+    // })
+    bFn(123, aFn)
+
+</script>
+</html>

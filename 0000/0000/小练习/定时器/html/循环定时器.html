@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>循环定时器</title>
+	<style>
+		#odiv{
+			position:absolute;
+			left:0;
+			top:0;
+			width:200px;
+			height:200px;
+			background-color: #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div id="odiv"></div>
+</body>
+	<script>
+		var odiv = document.querySelector("#odiv");
+		var l = 0;
+		setInterval(function(){
+			l += 5;
+			odiv.style.left = l + "px";
+		},30);
+	</script>
+</html>

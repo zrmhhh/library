@@ -1,0 +1,36 @@
+.wrap {
+    display: flex;
+    padding: 20px;
+}
+.wrap .wrap-child {
+    flex: 1;
+    height: 500px;
+    border: 1px solid #ccc;
+}
+.wrap .wrap-child li {
+    position: relative;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.wrap .wrap-child li button {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    padding: 0px 6px;
+    cursor: pointer;
+}
+.wrap .wrap-child li button:nth-child(1) {
+    right: 48px;
+}
+.wrap .goods {
+    margin-right: 20px;
+}
+.wrap .cart {
+    position: relative;
+}
+.wrap .cart .price-total {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+}

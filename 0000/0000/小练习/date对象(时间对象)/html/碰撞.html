@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.wrap{
+			width:500px;
+			height:300px;
+			border:1px solid red;
+			position:relative;
+		}
+		.child{
+			width:50px;
+			height:50px;
+			background-color: blue;
+			position:absolute;
+			left:0;
+			top:0;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="child"></div>
+	</div>
+</body>
+	<script>
+		var wrap = document.querySelector(".wrap");
+		var child = document.querySelector(".child");
+
+		var maxWidth = wrap.clientWidth - child.offsetWidth;//获取宽
+		var maxHeight = wrap.clientHeight - child.offsetHeight;//获取高
+		
+		var l = child.offsetLeft;//获取相对于定位父级的左偏移量
+		var t = child.offsetTop;
+
+		var bolX = true;
+		var bolY = true;
+		// setInterval(function(){
+		// 	if(bolX){
+		// 		l += 3;
+		// 		if(l > maxWidth){
+		// 			bolX = false;
+		// 		}
+		// 	}else{
+		// 		l -= 3;
+		// 		if(l < 0){
+		// 			bolX = true;
+		// 		}
+		// 	}
+
+		// 	if(bolY){
+		// 		t += 2;
+		// 		if(t > maxHeight){
+		// 			bolY = false;
+		// 		}
+		// 	}else{
+		// 		t -= 2;
+		// 		if(t < 0){
+		// 			bolY = true;
+		// 		}
+		// 	}
+		// 	child.style.left = l + "px";
+		// 	child.style.top = t + "px";
+		// },30);
+
+
+		var speedX = 3;
+		var speedY = 2;
+
+		setInterval(function(){
+			l += speedX;
+			t += speedY;
+			if(l > maxWidth){
+				speedX *= -1;
+			}else if(l < 0){
+				speedX *= -1;
+			}
+
+			if(t > maxHeight){
+				speedY *= -1;
+			}else if(t < 0){
+				speedY *= -1;
+			}
+
+			child.style.left = l + "px";
+		 	child.style.top = t + "px";
+		},30)
+	</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

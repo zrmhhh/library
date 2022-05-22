@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#odiv{
+			width:200px;
+			height:200px;
+			margin-top:10px;
+			background-color: #ccc;
+			display:none;
+		}
+	</style>
+</head>
+<body>
+	<a href="#" id = "setting">设置</a>
+	<div id="odiv"></div>
+</body>
+	<script>
+		var setting = document.querySelector("#setting");
+		var odiv = document.querySelector("#odiv");
+		var timer = null;
+
+		setting.onmouseover = function(){
+			
+			odiv.style.display = "block";
+		}
+		odiv.onmouseover = function(){
+			clearTimeout(timer);
+			odiv.style.display = "block";
+		}
+
+		setting.onmouseout = function(){
+			timer = setTimeout(function(){
+				odiv.style.display = "none";
+			},500)
+			
+		}
+		odiv.onmouseout = function(){
+			
+			setTimeout(function(){
+				odiv.style.display = "none";
+			},500)
+			
+		}
+	</script>
+</html>

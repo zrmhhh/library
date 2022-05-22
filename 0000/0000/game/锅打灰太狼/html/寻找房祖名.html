@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>寻找房祖名</title>
+	<style>
+		#main{
+			width:540px;
+			height:640px;
+			background-color: #ff6666;
+			position:absolute;
+			top:0;
+			bottom:0;
+			left:0;
+			right:0;
+			margin:auto;
+		}
+		#middle{
+			width:540px;
+			height:540px;
+		}
+		#middle img{
+			float:left;
+			margin:5px;
+		}
+		.top{
+			width:100%;
+			height:50px;
+		}
+		.bottom{
+			width:100%;
+			height:50px;
+		}
+	</style>
+</head>
+<body>
+	<div id="main">
+		<div class="top"></div>
+		<div id="middle"></div>
+		<div class="bottom"></div>
+	</div>
+</body>
+	<script>
+		
+	var middle = document.getElementById("middle");
+	var colors = ["#339966","#0099FF","#6600FF","#993366","#FF3399","#FFCC99","#CCCC99","#66FFCC","#CC3300"]; 
+	function rand(max,min){
+		var rand = parseInt(Math.random() * (max - min + 1) + min);
+		return rand;
+	}
+	var middleW = middle.clientWidth;
+	var x = 2;
+	var imgW = middleW / x - 10;
+
+	xh();
+	function xh(){
+		for(var i = 0; i < x * x; i ++){
+			imgW = middleW / x - 10;
+			var newImg = document.createElement("img");
+			newImg.style.width = imgW + "px";
+			newImg.src = "../source/" + rand(2,1) + ".png";
+			newImg.style.backgroundColor = colors[rand(8,0)];
+			middle.appendChild(newImg);
+
+			newImg.onclick = function(){
+				middle.innerHTML = "";
+				x ++;
+				xh();
+			}
+		}
+	}
+
+	</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

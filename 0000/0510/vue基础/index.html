@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        ul li {
+            list-style: none;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .goods {
+            display: flex;
+        }
+        .goods-left {
+            flex: 1;
+            border: 1px solid #ccc;
+        }
+        .goods-right {
+            flex: 1;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="goods">
+            <ul class="goods-left">
+                <h2 style="text-align: center;">商品列表</h2>
+                <li v-for="(goodsItem, key) in goodsList" :key="key">
+                    <p>商品名称：{{ goodsItem.name }}</p>
+                    <p>商品库存：{{ goodsItem.stock }}</p>
+                    <p>商品价格：{{ goodsItem.price }}</p>
+                    <button href="#" @click="onBuy(goodsItem)" style="cursor: pointer;">购买</button>
+                </li>
+            </ul>
+            <ul class="goods-right">
+                <h2 style="text-align: center;">购物列表</h2>
+                <li v-for="(chooseGoodItem, key) in chooseGoodsList" :key="key">
+                    <p>商品名称：{{ chooseGoodItem.name }}</p>
+                    <p>数量：{{ chooseGoodItem._count }}</p>
+                    <p>单价：{{ chooseGoodItem.price }}</p>
+                </li>
+                <div style="padding: 20px;">
+                    <!-- <p>数量：{{ count }}</p> -->
+                    <p>总价：{{ totalPrice }}</p>
+                </div>
+            </ul>
+        </div>
+    </div>
+</body>
+
+<script>
+    var _vm = new Vue({
+        el: '#app',
+        data(){
+            return {
+                // 商品列表
+                goodsList: [
+                    {
+                        name: '苹果',
+                        stock: 99,
+                        price: 6
+                    }, {
+                        name: '香蕉',
+                        stock: 0,
+                        price: 3
+                    }, {
+                        name: '披萨',
+                        stock: 7,
+                        price: 66
+                    }
+                ],
+                chooseGoodsList: [],
+                count: 0, // 购买数量
+                totalPrice: 0 // 总价
+            }
+        },
+        methods: {
+            onBuy(goods){
+
+                var isExist = false
+                this.chooseGoodsList.forEach(function(chooseGoodItem){
+                    if (chooseGoodItem.name === goods.name) {
+                        isExist = true
+                    }
+                }) // 遍历
+
+                goods._count = 1
+                this.chooseGoodsList.push(goods)
+
+                console.log('goods: ', goods)
+                console.log('chooseGoodsList: ', this.chooseGoodsList)
+            }
+        }
+    })
+</script>
+</html>

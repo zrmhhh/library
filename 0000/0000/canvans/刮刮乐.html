@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#img1{
+				position: absolute;
+				left:10px;
+				top:10px;
+			}
+			#canvas{
+				position: absolute;
+				left:10px;
+				top:10px;
+			}
+		</style>
+	</head>
+	<body>
+		<img id="img1" src="../1013canvas/img/7A70ACA2A2C528FC1FEEC2DBEFFF315C.png"/>
+		<canvas id="canvas" width="546" height="407"></canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+		
+		//绘制蒙版
+		context.fillStyle = "gray";
+		context.fillRect(0,0,canvas.width,canvas.height);
+		
+		context.globalCompositeOperation = "destination-out";
+		
+		var starX;
+		var starY;
+		var isDown = false;
+		canvas.onmousedown = function(e){
+			var e = e || window.event;
+			startX = e.offsetX;//相对于对象的偏移量
+			startY = e.offsetY;
+			isDown = true;
+		}
+		canvas.onmousemove = function(e){
+			if(!isDown){
+				return;
+			}
+			var e = e || window.event;
+			var endX = e.offsetX;
+			var endY = e.offsetY;
+			context.beginPath();
+			context.moveTo(starX,starY);
+			context.lineTo(endX,endY);
+			context.lineWidth = 50;
+			context.lineCap = "round";
+			context.stroke();
+			starX = endX;//作为下次划线的起点
+			starY = endY;
+		}
+		canvas.onmouseup = function(){
+			isDown = false;
+		}
+	</script>
+</html>

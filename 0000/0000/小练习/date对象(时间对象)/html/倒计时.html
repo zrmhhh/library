@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div class="div1"></div>
+</body>
+	<script>
+	var div1 = document.querySelector(".div1");
+	//function time(){
+		var nowTime = new Date();//当前时间
+		var otherTime = new Date(2016,8,15);//目标时间
+
+		var time = otherTime.getTime() - nowTime.getTime();//时间差
+		var s = parseInt(time/1000);
+		var d = parseInt(s/86400);
+		
+		s %= 86400;
+		var h = parseInt(s/3600);
+		s %= 3600;
+		var m = parseInt(s/60);
+		s %= 60;
+		div1.innerHTML = "距离中秋节还有" + d +"天" + h + "小时" + m + "分钟" + s + "秒";
+	//}
+
+	// setInterval(function(){
+	// 	time();
+	// },30);
+
+		
+	</script>
+</html>

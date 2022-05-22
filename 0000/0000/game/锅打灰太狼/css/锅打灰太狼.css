@@ -1,0 +1,142 @@
+*{
+	margin:0;
+	padding:0;
+}
+#main{
+	width:320px;
+	height:480px;
+	position: absolute;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	margin:auto;
+	background:url(../source/game_bg.jpg);
+}
+#score{
+	width:30px;
+	height:20px;
+	color:white;
+	font-weight:bolder;
+	position: absolute;
+	top:10px;
+	left:60px;
+}
+#time{
+	position: absolute;
+	left:63px;
+	top:66px;
+	width:180px;
+	height:16px;
+	overflow: hidden;
+	background-image: url("../source/progress.png");
+}
+#main img{
+	position: absolute;
+	display:block;
+}
+#img1{
+	top:160px;
+	left:15px;
+}
+#img2{
+	top:115px;
+	left:95px;
+}
+#img3{
+	top:142px;
+	left:185px;
+}
+#img4{
+	top:221px;
+	left:13px;
+}
+#img5{
+	top:192px;
+	left:100px;
+}
+#img6{
+	top:212px;
+	left:196px;
+}
+#img7{
+	top:294px;
+	left:27px;
+}
+#img8{
+	top:274px;
+	left:116px;
+}
+#img9{
+	top:296px;
+	left:204px;
+}
+/*开始游戏*/
+#play{
+	width:320px;
+	height:420px;
+	position: absolute;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	margin:auto;
+	background-color: rgba(82,117,139,0.5);
+	text-align: center;
+	padding-top:60px;
+	/*display:none;*/
+}
+#play h1{
+	color:white;
+}
+#play h2{
+	color:white;	
+	margin-top:120px;
+	cursor:pointer;
+}
+#play h2:hover{
+	color:red;
+}
+#play p{
+	margin-top:200px;
+}
+/*结束游戏*/
+#over{
+	width:320px;
+	height:420px;
+	position: absolute;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	z-index: 10;
+	margin:auto;
+	background-color: rgba(82,117,139,0.5);
+	text-align: center;
+	padding-top:60px;
+	color:red;
+	display:none;
+}
+#over h1{
+	margin-bottom: 80px;
+}
+#over h2{
+	margin-left:-40px;
+}
+#reboot{
+	margin-top:50px;
+	font-size:30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			#canvas {
+				position: absolute;
+				left: 0;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				margin: auto;
+				border: 1px solid red;
+			}
+		</style>
+	</head>
+
+	<body>
+		<canvas id="canvas" width="1500" height="800"></canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+		var isDown = false;
+		var direction = 39;
+		var timer = null;
+		var x1 = [];
+		var y1 = [];
+
+		function Snake(color, length, direction) {
+			this.color = color;
+			this.length = length;
+			this.direction = direction;
+			this.create = function() {
+				context.beginPath();
+				if(direction == 39) {
+//					if(y >= y1[1]) {
+						context.moveTo(x, y);
+						context.lineTo(x + length, y);
+//					} else {
+//						context.moveTo(x, y1[1]);
+//						for(var i = 0; i < x1.length; i++) {
+//							context.lineTo(x1[i], y1[i]);
+//						}
+//						context.lineTo(x, y1[i - 1]);
+//					}
+				}
+				if(direction == 40) {
+					if(y == y1[0] + length && isDown == false) {
+						y = y1[0];
+						isDown = true;
+					}
+					if(x >= x1[0]) {
+						context.moveTo(x, y);
+						context.lineTo(x, y + length);
+					} else {
+						context.moveTo(x, y1[0]);
+						for(var i = 0; i < x1.length; i++) {
+							context.lineTo(x1[i], y1[i]);
+						}
+						context.lineTo(x1[i - 1], y);
+					}
+
+				}
+				if(direction == 37) {
+					context.moveTo(x, y);
+					context.lineTo(x + length, y);
+				}
+				if(direction == 38) {
+					context.moveTo(x, y);
+					context.lineTo(x, y + length);
+				}
+				context.lineCap = "round";
+				context.lineWidth = 30;
+				context.strokeStyle = this.color;
+				context.stroke();
+			}
+			this.move = function() {
+				timer = setInterval(function() {
+					context.clearRect(0, 0, canvas.width, canvas.height);
+					if(direction == 39) {
+						x += 1;
+					}
+					if(direction == 40) {
+						if(x < x1[0]) {
+							x += 1;
+						}
+						y += 1;
+					}
+					if(direction == 37) {
+						x -= 1;
+					}
+					if(direction == 38) {
+						y -= 1;
+					}
+					snake.create();
+				}, 30);
+			}
+		}
+		var x = 100;
+		var y = 100;
+		var snake = new Snake("red", 50, direction);
+		snake.create();
+		snake.move();
+		//		context.beginPath();
+		//		context.moveTo(100,100);
+		//		context.lineTo(200,100);
+		//		context.lineTo(200,200);
+		//		context.lineCap = "round";
+		//		context.lineWidth = 30;
+		//		context.strokeStyle = "red";
+		//		context.stroke();
+		document.onkeydown = function(e) {
+			var e = e || window.event;
+			clearInterval(timer);
+			if(e.keyCode == 37) {
+				//向左
+				direction = 37;
+				snake = new Snake("red", 50, direction, x, y);
+				snake.create();
+				snake.move();
+			}
+			if(e.keyCode == 38) {
+				//向上
+				direction = 38;
+				snake = new Snake("red", 50, direction, x, y);
+				snake.create();
+				snake.move();
+			}
+			if(e.keyCode == 39) {
+				//向右
+				x1.push(x);
+				y1.push(y + 50);
+				direction = 39;
+				snake = new Snake("red", 50, direction);
+				console.log(x, y);
+				snake.create();
+				snake.move();
+			}
+			if(e.keyCode == 40) {
+				//向下
+				x1.push(x + 50);
+				y1.push(y);
+				direction = 40;
+				snake = new Snake("red", 50, direction);
+				snake.create();
+				snake.move();
+			}
+		}
+	</script>
+
+</html>

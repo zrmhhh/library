@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>锅打灰太狼试验</title>
+</head>
+<body>
+	<img src="../source/h0.png" alt="">
+	<img src="../source/x0.png" alt="">
+</body>
+	<script>
+		var imgs = document.getElementsByTagName("img");
+		imgs[0].type = "h";//灰太狼的类型为h
+		imgs[1].type = "x";//小灰灰类型为x
+		for(var i = 0; i < imgs.length; i ++){
+			imgs[i].index = 0;
+			imgs[i].upTimer = setInterval(function(obj){
+				obj.style.display = "block";
+				obj.index ++;
+				if(obj.index >= 5){
+					clearInterval(obj.upTimer);
+					obj.downFn();
+				}
+				//相当于obj == imgs[i];
+				console.log(obj);
+				obj.src = "../source/" + obj.type + obj.index + ".png";
+			},150,imgs[i]);
+
+			imgs[i].downFn = function(){
+				this.downTimer = setInterval(function(obj){
+					obj.index --;
+					if(obj.index <= 0){
+						clearInterval(obj.downTimer);
+						obj.style.display = "none";
+					}
+					obj.src = "../source/" + obj.type + obj.index + ".png";
+				},150,this);
+			}
+
+			imgs[i].onclick = function(){
+				clearInterval(this.upTimer);
+				alert("点中了");
+			}
+		}
+	</script>
+</html>

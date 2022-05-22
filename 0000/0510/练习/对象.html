@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="#" id="callPhone">查手机</a>
+    <script>
+
+        var callPhoneFn = function (){
+            var numberFn= prompt('请输入手机号：')
+            if (/^1\d{10}$/.test(numberFn)) {
+                alert('正在拨号'+numberFn)
+            }else{
+                alert('手机号错误，请重新输入')
+            }
+        };
+
+        var iphone6={
+            type:'iphone6',
+            color:'black',
+            size:'12英寸',
+            price:4500,
+            callPhoneFn:callPhoneFn
+        };
+        var iphone8={
+            type:'iphone8',
+            color:'blue',
+            size:'18英寸',
+            price:8500,
+            callPhoneFn:callPhoneFn
+        };
+        var iphoneX={
+            type:'iphonex',
+            color:'black',
+            size:'8英寸',
+            price:6500,
+            callPhoneFn:callPhoneFn
+        }
+        
+        var iphoneList=[iphone6,iphone8,iphoneX]
+        var callPhone=document.getElementById('callPhone');
+        callPhone.addEventListener('click',function(){
+            var iphonetype=prompt('请输入型号')
+            var aaaa = {}
+            iphoneList.forEach(function(item){
+                if(Number(iphonetype)===item.price){
+                    aaaa = item
+                }
+            })
+            alert(aaaa.type)
+        })
+
+
+    </script>
+</body>
+</html>

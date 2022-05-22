@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		#box{
+			width: 600px;
+			height: 500px;
+			border:1px solid red;
+			margin: 50px auto;
+			position: relative;
+			/*overflow: hidden;*/
+		}
+		#wrap{
+			width: 600px;
+			position: absolute;
+			left:0;
+			bottom:0;
+		}
+		.row{
+			position: absolute;
+			left:0px;
+			bottom:0px;
+			/*overflow: hidden;*/
+		}
+		.row div{
+			float: left;
+			width: 20px;
+			height: 20px;
+			background-color: #ccc;
+			border:1px solid black;
+			box-sizing: border-box;
+			transition: all 1s;
+			transform: translate(0,0) rotate(0deg);
+			opacity: 1;
+		}
+		.row div.remove{
+			transform: translate(0,100px) rotate(360deg);
+			opacity: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div id="wrap">
+
+			<!-- <div class="row">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div> -->
+		</div>
+	</div>
+	
+</body>
+<script>
+	
+	var wrap = document.getElementById("wrap");
+	var box = document.getElementById("box");
+	var bottom = 0;
+	var blockageNum = 20;//小方块初始的个数
+	var blockageWidth = 20;//小方块的宽度
+	// var timer = null;
+	var time = 500;
+
+	function createRow(){
+		//创建并插入row
+		
+		var row = document.createElement("div");
+		row.className = "row";
+		row.style.left = "0px";
+		row.style.bottom = bottom+"px";
+		//创建并插入小方块
+		for(var i=0; i< blockageNum; i++){
+			var blockage = document.createElement("div");
+			row.appendChild(blockage);
+		}
+
+		wrap.appendChild(row);
+		//让row动起来
+		var rowStart = row.offsetLeft;
+		var maxWidth = wrap.clientWidth-row.offsetWidth;//移动最大量
+		row.direction = true;//加着走
+		row.timer = setInterval(function(){
+			if(row.direction){
+				rowStart+=20;
+				if(rowStart>=maxWidth){
+					row.direction = false;
+				}
+			}else{
+				rowStart-=20;
+				if(rowStart<=0){
+					row.direction = true;
+				}
+			}
+			row.style.left = rowStart+"px";
+		}, time);
+
+		return row;
+
+
+	}
+
+	function removeBlockage(){
+
+		//先判断删除左边还是右边
+		var nowRow = wrap.lastElementChild;//获取页面中所看到的第一行
+		var preRow = nowRow.previousElementSibling;//获取到上一个
+
+
+		//查看两行left的值的差别
+		if(preRow){
+			var diffrence = nowRow.offsetLeft-preRow.offsetLeft;
+			console.log(diffrence);
+		}else{
+			var diffrence = 0;
+		}
+		
+		var removeNum = diffrence/blockageWidth;
+
+		//刷新一下创建row内部的小方块个数
+		blockageNum-=Math.abs(removeNum);
+
+		//判断游戏结束
+		if(blockageNum<=0){
+			alert("游戏结束！");
+			clearInterval(nowRow.timer);
+			return;
+		}
+
+		var nowBlock = nowRow.children;//获取当前行内部的小方块
+		//删除小方块
+		if(removeNum>0){
+			//末尾删除
+			for(var i= 0; i<removeNum; i++){
+				//删除removeNum次小方块
+				// removeNum =4 ;
+				// 小方块个数18个
+				// 倒数第一个 nowBlock.length-1
+				// 倒数第二个 nowBlock.length-1-1
+				// 倒数第三个 nowBlock.length-1-2
+				// 倒数第四个 nowBlock.length-1-3
+				var removeObj = nowBlock[nowBlock.length-1-i]
+				removeObj.className = "remove";
+			}
+			setTimeout(function(){
+				//1秒之后执行删除
+				for(var i=0; i < removeNum; i++){
+					nowRow.removeChild(nowRow.lastElementChild);
+				}
+			}, 1000);
+		}else{
+			removeNum *=-1;
+			//头部删除
+			for (var i = 0; i < removeNum; i++) {
+
+				var removeObj = nowBlock[i];
+				removeObj.className = "remove";
+				// nowRow.removeChild(nowRow.firstElementChild);
+			}
+			setTimeout(function(){
+				for(var i=0; i< removeNum; i++){
+					nowRow.removeChild(nowRow.firstElementChild);
+				}
+				nowRow.style.left = nowRow.offsetLeft+removeNum*20+"px"
+			}, 1000);
+			// nowRow.style.left = nowRow.offsetLeft+removeNum*20+"px";
+		}
+
+
+	}
+	
+	createRow();
+	var clickBol = false;//未点击时
+	box.onclick = function(){
+		//新创建一行，并清除之前在动的那行的定时器
+		if(clickBol == true){
+			return;}
+
+		clickBol = true;
+
+		setTimeout(function(){
+			clickBol = false;
+		}, 1000);
+
+
+		time-=40;
+		if(time <= 100){
+			time = 100;
+		}
+
+
+		removeBlockage();
+		bottom+=20;
+		if(bottom >= 200){
+			wrap.style.bottom = -(bottom-200)+"px";
+		}
+
+
+		// clearInterval(timer);
+		var row = createRow();
+		var preRow = row.previousElementSibling;
+		clearInterval(preRow.timer);
+
+	}
+
+
+
+
+
+
+
+
+
+</script>
+</html>

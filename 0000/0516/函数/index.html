@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app {
+            display: flex;
+        }
+        p {
+            flex: 1;
+            text-align: center;
+            height: 800px;
+            line-height: 800px;
+            font-size: 60px;
+            cursor: pointer;
+        }
+        #one {
+            background-color: #333;
+        }
+        #two {
+            background-color: #ccc;
+        }
+        #three {
+            background-color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p id="one"></p>
+        <p id="two"></p>
+        <p id="three"></p>
+    </div>
+</body>
+<script>
+    let oneEl = document.getElementById('one')
+    let twoEl = document.getElementById('two')
+    let threeEl = document.getElementById('three')
+
+    // let oneTimerId = null
+    // let twoTimerId = null
+    // let threeTimerId = null
+    let timerMap = {
+        oneTimerId: null,
+        twoTimerId: null,
+        threeTimerId: null
+    }
+
+    let oneNum = 10
+    let twoNum = 10
+    let threeNum = 10
+
+    oneEl.addEventListener('click', generateTimerFn(oneEl, timerMap, oneNum))
+    twoEl.addEventListener('click', generateTimerFn(twoEl, timerMap, twoNum))
+    threeEl.addEventListener('click', generateTimerFn(threeEl, timerMap, threeNum))
+
+    function generateTimerFn(el, timerIdObj, num) {
+        return function downTimerFn() {
+            clearInterval(oneTimerId)
+            clearInterval(twoTimerId)
+            clearInterval(threeTimerId)
+
+            el.innerHTML = num
+            timerIdObj.timerId = setInterval(() => {
+                el.innerHTML = num--
+                if(num < 0) {
+                    clearInterval(timerIdObj.timerId)
+                }
+            }, 1000);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // let timerId = setInterval(generateTimerFn(oneEl, '倒计时：', 50), 1000);
+    // 生成定时器执行函数
+    // function generateTimerFn(_el, _text, _num){
+    //     // 定时器执行函数
+    //     return function timerFn () {
+    //         _el.innerHTML = _text + _num--
+    //         if(_num < 0) {
+    //             clearInterval(timerId)
+    //         }
+    //     }
+    // }
+    
+    // var a = 1;
+    // let b = 2; // let：已定义的变量不能重复定义
+    // const pi = 3.1415926; // 同上，但是多了一个功能：
+
+    // var a = 9
+    // // b = 9
+    // c = 9
+
+    // console.log(c);
+
+    // pi = 3.15
+
+    // if (true) {
+    //     let a = 1
+    //     a = 3 + a
+    // }
+    // console.log(a)
+
+    // function aFn(params) {
+    //     alert(1234)
+    // }
+    // aFn()
+
+    // let a = 1;
+    // setInterval(function(a, b){
+    //     console.log(a++)
+    // }, 1000);
+
+    // setInterval((a, b) => {
+    //     console.log(a++)
+    // }, 1000);
+
+    // 定时器
+    // let timerId = setInterval(() => {
+    //     console.log(++a)
+
+    //     if (a >= 5) {
+    //         clearInterval(timerId)
+    //     }
+    // }, 500);
+
+    // 延时器：延迟执行
+    // let timerIdTwo = setTimeout(() => {
+    //     console.log(a++)
+    //     clearTimeout(timerIdTwo)
+    // }, 1000);
+</script>
+</html>

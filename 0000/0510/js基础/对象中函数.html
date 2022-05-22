@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对象中函数</title>
+</head>
+<body>
+    
+</body>
+<script>
+    var aObj = {
+        a: [],
+        b: function(aArr, b){
+            aArr.push(b)
+        }
+    }
+    aObj.b(aObj.a, 3)
+    aObj.b(aObj.a, 2)
+    aObj.b(aObj.a, 4)
+    aObj.b(aObj.a, 3)
+
+    console.log(aObj.a)
+
+</script>
+</html>

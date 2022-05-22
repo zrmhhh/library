@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>计算器</title>
+</head>
+<body>
+	<input type="text" id="num1">
+	<select name="" id="method">
+		<option value="0">+</option>
+		<option value="1">-</option>
+		<option value="2">*</option>
+		<option value="3">/</option>
+	</select>
+	<input type="text" id="num2">
+	<input type="button" value="结果" id="btn">
+	<input type="text" id="result">
+</body>
+	<script>
+		var num1 = document.querySelector("#num1");
+		var num2 = document.querySelector("#num2");
+		var method = document.querySelector("#method");
+		var btn = document.querySelector("#btn");
+		var result = document.querySelector("#result");
+
+		btn.onclick = function(){
+
+			// var number1 = Number(num1.value);
+			// var number2 = Number(num2.value);
+			
+			switch(method.value){
+				case "0":
+					result.value = Number(num1.value)+Number(num2.value);
+					break;
+				case "1":
+					result.value = Number(num1.value)-Number(num2.value);
+					break;
+				case "2":
+					result.value = Number(num1.value)*Number(num2.value);
+					break;
+				case "3":
+					result.value = Number(num1.value)/Number(num2.value);
+					break;
+				default:
+
+			}
+		}
+	</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

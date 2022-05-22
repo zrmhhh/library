@@ -1,0 +1,43 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+ul li {
+    list-style: none;
+}
+
+#app {
+    padding: 20px;
+    display: flex;
+}
+#app ul {
+    border: 1px solid #ccc;
+    min-height: 500px;
+}
+#app ul li {
+    position: relative;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.btn-wrap {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+.btn-wrap button {
+    padding: 2px 10px;
+}
+.goods {
+    flex: 1;
+    margin-right: 20px;
+}
+.cart {
+    flex: 1;
+    position: relative;
+}
+.cart-total {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+}

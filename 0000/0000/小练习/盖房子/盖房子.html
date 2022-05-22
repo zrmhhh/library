@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>盖房子</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		#wrap{
+			width:600px;
+			height:500px;
+			border:1px solid red;
+			margin:50px auto;
+			position: relative;
+		}
+		.row{
+			position:absolute;
+			left:0px;
+			bottom:0px;
+			overflow:hidden;
+		}
+		.row div{
+			float:left;
+			width:20px;
+			height:20px;
+			background-color: #ccc;
+			border:1px solid black;
+			box-sizing:border-box;
+			transition:all 1s;
+			transform:rotate(0deg) translate(0,0);
+			opacity:1;
+		}
+		.row div.remove{
+			transform:rotate(360deg) translate(0,100px);
+			opacity: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		
+	</div>
+</body>
+	<script>
+		var wrap = document.getElementById("wrap");
+		var bottom = 0;
+		var blockageNum = 20;//小方块初始的个数
+		var blockageWidth = 20;//小方块的宽度
+		var timer;
+
+		// 创建并插入row
+		var row;
+
+		function createRow(){
+			//创建并插入小方块
+			row = document.createElement("div");
+			row.className = "row";
+			row.style.left = "0px";
+			row.style.bottom = bottom + "px";
+			for(var i = 0; i < blockageNum; i ++){
+				var blockage = document.createElement("div");
+				row.appendChild(blockage);
+			}
+			wrap.appendChild(row);
+
+			//让row动起来
+			var rowStart = row.offsetLeft;
+			var maxWidth = wrap.clientWidth - row.offsetWidth;//移动最大量
+			var direction = true;//加着走
+			timer = setInterval(function(){
+				if(direction){
+					rowStart += 20;
+					if(rowStart >= maxWidth){
+						direction = false;
+					}
+				}else{
+						rowStart -= 20;
+						if(rowStart <= 0){
+							direction = true;
+						}
+					}
+				row.style.left = rowStart+ "px";
+			},500);
+
+			return row;
+		}
+
+		function removeBlockage(){
+			//先判断删除左边还是右边的
+			var nowRow = wrap.lastElementChild;//获取页面中所看到的第一行
+			var preRow = nowRow.previousElementSibling;//获取到上一个
+
+			//查看两行left的值的差别
+			if(preRow){
+				var diffrence = nowRow.offsetLeft - preRow.offsetLeft;
+				console.log(diffrence);
+			}else{
+				var diffrence = 0;
+			}
+
+			var removeNum = diffrence / blockageWidth;
+
+			//刷新一下创建row内部的小方块个数
+			blockageNum -= Math.abs(removeNum);
+			var nowBlock = nowRow.children;//获取当前行内部的小方块
+
+			// 删除小方块
+			if(removeNum > 0){
+				//末尾删除
+				for(var i = 0; i < removeNum; i ++){
+					//删除removeNum次小方块
+					nowBlock[nowBlock.length - 1 - i].className = "remove";
+					
+					nowRow.removeChild(nowRow.lastElementChild);
+				}
+			}else{
+				removeNum *= -1;
+				//头部删除
+				for(var i = 0; i < removeNum; i ++){
+					var removeObj = nowBlock[i];
+					removeObj.
+					nowRow.removeChild(nowRow.firstElementChild);
+				}
+				nowRow.style.left = nowRow.offsetLeft + removeNum * 20 + "px";
+			}
+		}
+		
+		createRow();
+
+		wrap.onclick = function(){
+			//新创建一行，并清除之前在动的那行的定时器
+			removeBlockage();
+
+			bottom += 20;
+			clearInterval(timer);
+			var row = createRow();
+			var preRow = row.previousElementSibling;
+			clearInterval(preRow.timer);
+		}
+	</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

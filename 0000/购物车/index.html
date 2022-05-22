@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <script src="./js/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <ul class="goods">
+            <li v-for="(goodsItem, key) in goodsList" :key="key">
+                <p>商品名称：{{ goodsItem.name }}</p>
+                <p>价格：{{ goodsItem.price }}</p>
+                <p>库存：{{ goodsItem.stock }}</p>
+
+                <div class="btn-wrap">
+                    <button style="cursor: pointer;" @click="onBuy(goodsItem)">购买</button>
+                </div>
+            </li>
+        </ul>
+        <ul class="cart">
+            <li v-for="(goodsItem, key) in cartList" :key="key">
+                <p>商品名称：{{ goodsItem.name }}</p>
+                <p>价格：{{ goodsItem.price }}</p>
+                <p>数量：{{ goodsItem.count }}</p>
+                
+                <div class="btn-wrap">
+                    <button style="cursor: pointer;" @click="onUpdateCount(goodsItem, -1)">-</button>
+                    <button style="cursor: pointer;" @click="onUpdateCount(goodsItem, +1)">+</button>
+                </div>
+            </li>
+
+            <div class="cart-total">
+                总价：{{ priceTotal }}
+            </div>
+        </ul>
+    </div>
+</body>
+<script src="./js/ajax.js"></script>
+<script>
+    ajax('post', '/proxy/save/cart/list', {aaa: 1}, function(res) {
+        console.log(res)
+    })
+    // ajax('get', '/proxy/goods/list', {}, function(res) {
+    //     console.log(res)
+    // })
+    // ajax('post', '/proxy/save/goods/list', {
+    //     name: 'apple',
+    //     price: 9,
+    //     stock: 55
+    // }, function(res) {
+    //     console.log(res)
+    // })
+
+    const app = new Vue({
+        el: '#app',
+        data: function(){
+            return {
+                goodsList: [
+                    {
+                        name: '苹果',
+                        price: 8,
+                        stock: 11
+                    }, {
+                        name: '香蕉',
+                        price: 5,
+                        stock: 2
+                    }, {
+                        name: '橙汁',
+                        price: 18,
+                        stock: 99
+                    }
+                ], // 商品列表
+                cartList: [], // 购物车列表
+                priceTotal: 0 // 购物车商品总价
+            }
+        },
+        watch: {
+            cartList: {
+                deep: true,
+                handler(){
+                    this._updatePriceTotal()
+                }
+            }
+        },
+        methods: {
+            onBuy(goods) {
+                const cartIndex = this.cartList.map(v => v.name).indexOf(goods.name)
+                if(cartIndex !== -1) {
+                    this.cartList[cartIndex].count ++
+                } else {
+                    this.cartList.push({
+                        name: goods.name,
+                        price: goods.price,
+                        count: 1 // 购买数量
+                    })
+                }
+            },
+            onUpdateCount(goodsItem, symbol) {
+                goodsItem.count += symbol
+                if (goodsItem.count === 0) {
+                    const cartIndex = this.cartList.map(v => v.name).indexOf(goodsItem.name)
+                    this.cartList.splice(cartIndex, 1)
+                }
+                this._updatePriceTotal()
+            },
+            _updatePriceTotal(){
+                // let priceTotal = 0
+                const priceTotal = this.cartList.map(v => v.price * v.count)
+                this.cartList.forEach(item => {
+                    const amount = item.price * item.count
+                    priceTotal += amount
+                })
+                this.priceTotal = priceTotal
+            }
+        }
+    })
+</script>
+</html>

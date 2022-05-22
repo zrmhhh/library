@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>计算器</title>
+	<style>
+		#main{
+			width:205px;
+			height:310px;
+			border:1px solid black;
+			border-radius:5px;
+			position:absolute;
+			left:0px;
+			right:0px;
+			top:0px;
+			bottom:0px;
+			margin:auto;
+		}
+		div{
+			width:50px;
+			height:50px;
+			text-align:center;
+			line-height:50px;
+			cursor:pointer;
+		}
+		#num{
+			float:left;
+			overflow:hidden;
+			width:153px;
+			height:205px;
+			background-color: #e0e0e0;
+		}
+		#special{
+			float:left;
+			overflow:hidden;
+			width:153px;
+			height:52px;
+			background-color: #e0e0e0;
+		}
+		#num div{
+			border-right:1px solid gray;
+			border-bottom:1px solid gray;
+			float:left;
+		}
+		#special div{
+			border-right:1px solid gray;
+			border-bottom:1px solid gray;
+			float:left;
+		}
+		#show{
+			width:205px;
+			height:56px;
+			background-color: #959696;
+			text-align:right;
+		}
+		#operators{
+			height:255px;
+			width:52px;
+			position:absolute;
+			bottom:0;
+			right:0;
+			background-color: #fd9441;
+		}
+	</style>
+</head>
+<body>
+	<div id="main">
+		<div id="show">0</div>
+
+		<div id="special">
+			<div>AC</div>
+			<div>+-</div>
+			<div>%</div>
+		</div>
+
+		<div id="num">
+			<div>7</div>
+			<div>8</div>
+			<div>9</div>
+			<div>4</div>
+			<div>5</div>
+			<div>6</div>
+			<div>1</div>
+			<div>2</div>
+			<div>3</div>
+			<div>0</div>
+			<div style="width:101px">.</div>
+		</div>
+
+		<div id="operators">
+			<div>/</div>
+			<div>*</div>
+			<div>-</div>
+			<div>+</div>
+			<div>=</div>
+		</div>
+	</div>
+</body>
+	<script src="./js/计算器.js"></script>
+</html>

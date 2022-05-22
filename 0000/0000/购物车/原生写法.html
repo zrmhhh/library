@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+    <div id="app">
+        <ul class="goods"></ul>
+        <ul class="cart">
+            <div class="cart-total">
+                总价：0
+            </div>
+        </ul>
+    </div>
+</body>
+<script>
+    // 数据变量定义
+    let priceTotal = 0;
+    let goodsList = [
+        {
+            name: '苹果',
+            price: 8,
+            stock: 11
+        }, {
+            name: '香蕉',
+            price: 5,
+            stock: 2
+        }, {
+            name: '橙汁',
+            price: 18,
+            stock: 99
+        }
+    ];
+    let cartList = [];
+
+    // dom节点获取
+    let goodsWrapEl = document.getElementsByClassName('goods')[0];
+    let cartWrapEl = document.getElementsByClassName('cart')[0];
+    let cartTotalEl = document.getElementsByClassName('cart-total')[0];
+
+    // 渲染数据 [商品列表]
+    goodsList.forEach(goodsItem => {
+        let goodsItemEl = document.createElement('li');
+        let goodsItemNameEl = document.createElement('p');
+        let goodsItemPriceEl = document.createElement('p');
+        let goodsItemStockEl = document.createElement('p');
+
+        goodsItemNameEl.innerHTML = '商品名称：' + goodsItem.name
+        goodsItemPriceEl.innerHTML = '价格：' + goodsItem.price
+        goodsItemStockEl.innerHTML = '库存：' + goodsItem.stock
+        
+        goodsItemEl.appendChild(goodsItemNameEl)
+        goodsItemEl.appendChild(goodsItemPriceEl)
+        goodsItemEl.appendChild(goodsItemStockEl)
+        goodsWrapEl.appendChild(goodsItemEl)
+
+        // 添加购买按钮
+        let goodsItemBtnWrapEl = document.createElement('div')
+        goodsItemBtnWrapEl.className = 'btn-wrap'
+        let goodsItemBtnEl = document.createElement('button')
+        goodsItemBtnEl.style = 'cursor: pointer;'
+        goodsItemBtnEl.innerHTML = '购买'
+
+        goodsItemBtnWrapEl.appendChild(goodsItemBtnEl)
+        goodsItemEl.appendChild(goodsItemBtnWrapEl)
+
+        // 为购买按钮添加事件
+        goodsItemBtnEl.addEventListener('click', function(){
+            const cartIndex = cartList.map(v => v.name).indexOf(goodsItem.name)
+            if (cartIndex !== -1) {
+                cartList[cartIndex].count++
+            } else {
+                cartList.push({
+                    name: goodsItem.name,
+                    price: goodsItem.price,
+                    count: 1 // 购买数量
+                })
+            }
+            // 重新渲染购物车
+            renderCartFn()
+        })
+    })
+    
+    function renderCartFn(){
+        // 清空购物车列表
+        cartWrapEl.innerHTML = ''
+        // 渲染数据 [商品列表]
+        cartList.forEach(goodsItem => {
+            let goodsItemEl = document.createElement('li');
+            let goodsItemNameEl = document.createElement('p');
+            let goodsItemPriceEl = document.createElement('p');
+            let goodsItemCountEl = document.createElement('p');
+
+            goodsItemNameEl.innerHTML = '商品名称：' + goodsItem.name
+            goodsItemPriceEl.innerHTML = '价格：' + goodsItem.price
+            goodsItemCountEl.innerHTML = '数量：' + goodsItem.count
+
+            goodsItemEl.appendChild(goodsItemNameEl)
+            goodsItemEl.appendChild(goodsItemPriceEl)
+            goodsItemEl.appendChild(goodsItemCountEl)
+            cartWrapEl.appendChild(goodsItemEl)
+
+            // 添加-、+按钮
+            let goodsItemBtnWrapEl = document.createElement('div')
+            goodsItemBtnWrapEl.className = 'btn-wrap'
+            let goodsItemBtnMinusEl = document.createElement('button')
+            let goodsItemBtnPlusEl = document.createElement('button')
+            goodsItemBtnMinusEl.style = 'cursor: pointer;'
+            goodsItemBtnMinusEl.innerHTML = '-'
+            goodsItemBtnPlusEl.style = 'cursor: pointer;'
+            goodsItemBtnPlusEl.innerHTML = '+'
+
+            goodsItemBtnWrapEl.appendChild(goodsItemBtnMinusEl)
+            goodsItemBtnWrapEl.appendChild(goodsItemBtnPlusEl)
+            goodsItemEl.appendChild(goodsItemBtnWrapEl)
+
+            // 为-、+按钮添加事件
+            goodsItemBtnMinusEl.addEventListener('click', function(){
+                goodsItem.count --
+                renderCartFn()
+            })
+            goodsItemBtnPlusEl.addEventListener('click', function () {
+                goodsItem.count ++
+                renderCartFn()
+            })
+        })
+
+        // 渲染价格
+        _updatePriceTotal()
+        function _updatePriceTotal(){
+            let priceTotal = 0
+            cartList.forEach(item => {
+                const amount = item.price * item.count
+                priceTotal += amount
+            })
+            console.log(priceTotal)
+            cartTotalEl.innerHTML = '总价：' + priceTotal
+            cartWrapEl.appendChild(cartTotalEl)
+        }
+    }
+</script>
+</html>

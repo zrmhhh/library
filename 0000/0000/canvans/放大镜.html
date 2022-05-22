@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<canvas id="canvas" width="500" height="500"></canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+		var isDown = false;
+		var img = new Image();
+		img.src = "../img/1.jpeg";
+		img.onload = function() {
+			context.drawImage(img, 0, 0);
+			canvas.onmousedown = function() {
+				isDown = true;
+			}
+			canvas.onmouseup = function() {
+				isDown = false;
+			}
+			canvas.onmousemove = function(e) {
+				if(!isDown) {
+					return;
+				}
+				var e = e || window.event;
+				var x = e.offsetX;
+				var y = e.offsetY;
+				context.clearRect(0,0,canvas.width,canvas.height);
+				context.drawImage(img,0,0);
+				context.drawImage(img,x - 50, y - 50,100,100,x - 100,y - 100,200,200);
+			}
+		}
+	</script>
+
+</html>

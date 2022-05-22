@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="button" value = "随机一注" id = "btn">
+	<div class="odiv"></div>
+</body>
+	<script>
+		var btn = document.querySelector("#btn");
+		var odiv = document.querySelector(".odiv");
+		var timer = null;
+			//先产生一组数
+			function rand(max,min){
+				var num = parseInt(Math.random()*(max-min+1)+min);
+				return num;
+			}
+
+			function creatArr(){
+				var arr = [];
+					while(arr.length<5){
+						var r = rand(32,1);
+						for(var i = 0; i < arr.length; i ++){
+							if(arr[i] == r){
+								break;
+							}
+						}
+						if(i == arr.length){
+							arr.push(r);	
+						}
+					}
+					return arr;
+				}
+
+			var time = 0;
+			timer = setInterval(function(){
+				time += 100;
+				if(time > 2000){
+					clearInterval(timer);
+				}
+				odiv.innerHTML = creatArr();
+				},100)
+			
+
+			btn.onclick = function(){
+				clearInterval(timer);
+				var time = 0;
+				timer = setInterval(function(){
+				time += 100;
+				if(time > 2000){
+					clearInterval(timer);
+				}
+				odiv.innerHTML = creatArr();
+				},100)
+			}
+	</script>
+</html>

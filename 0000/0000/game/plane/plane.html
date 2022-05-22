@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#canvas {
+				position: absolute;
+				left: 0;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				margin: auto;
+				border: 1px solid red;
+			}
+			a{
+				text-decoration: none;
+			}
+			.rehome{
+				background-image: url(source/retrun.png);
+				background-size: cover;
+				width:50px;
+				height:50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<a href="../../page/gamePage.html"><div class="rehome"></div></a>
+		<canvas id="canvas" width="400" height="700"></canvas>
+	</body>
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext("2d");
+		var bgTime = 0;
+		var planeBol = true;
+		var isDown = false;
+		var timer = null;
+		var bol = true;
+		var doubleBullet = false;
+		var zy = true;
+
+		function rand(max, min) {
+			return parseInt(Math.random() * (max - min + 1) + min);
+		}
+		//图片预加载
+		var imgArr = ["source/background.png", "source/enemy1.png", "source/enemy2.png", "source/enemy3.png", "source/bomb.png", "source/bullet1.png", "source/bullet2.png", "source/herofly.png", "source/prop.png"];
+		var imgIndex = 0;
+		var imgObjs = [];
+
+		function loadingImg(imgArr) {
+			for(var i = 0; i < imgArr.length; i++) {
+				var imgObj = new Image();
+				imgObj.src = imgArr[i];
+				imgObj.onload = function() {
+					imgIndex++;
+					imgObjs.push(this); //当前加载完的图片存储到数组imgObjs中
+					//执行加载进程
+					loadingProcess(imgIndex, imgArr);
+				}
+			}
+		}
+
+		function loadingProcess(imgIndex, imgArr) {
+			if(imgIndex >= imgArr.length) {
+				loadingOver();
+			}
+		}
+
+		function loadingOver(imgIndex, imgArr) {
+			var enemyImg1 = new Image();
+			var enemyImg2 = new Image();
+			var enemyImg3 = new Image();
+			var bgImg = new Image();
+			var planeImg = new Image();
+			var bullet1 = new Image();
+			var bullet2 = new Image();
+			var prop = new Image();
+			var bombImg = new Image();
+			enemyImg1.src = "source/enemy1.png";
+			enemyImg2.src = "source/enemy3.png";
+			enemyImg3.src = "source/enemy2.png";
+			bgImg.src = "source/background.png";
+			planeImg.src = "source/herofly.png";
+			bullet1.src = "source/bullet1.png";
+			bullet2.src = "source/bullet2.png";
+			prop.src = "source/prop.png";
+			bombImg.src = "source/bomb.png";
+			//背景图片
+			function bgImgMove() {
+				bgTime++;
+				context.drawImage(bgImg, 0, 0 + bgTime, canvas.width, canvas.height);
+				context.drawImage(bgImg, 0, -canvas.height + bgTime, canvas.width, canvas.height);
+				if(bgTime == canvas.height) {
+					bgTime = 0;
+				}
+			}
+			//分数
+			var score = {
+					x: 50,
+					y: 50,
+					score: 0,
+					draw: function() {
+						context.font = "30px 黑体";
+						context.fillStyle = "#000000";
+						context.fillText(this.score, this.x, this.y);
+					}
+				}
+				//炸弹
+			var bombNum = 0;
+
+			function bomb() {
+				context.drawImage(bombImg, 10, canvas.height - 50);
+				context.font = "30px,黑体";
+				context.fillStyle = "#000000";
+				context.fillText(" X " + bombNum, 60, canvas.height - 20);
+				//暂停
+				context.font = "50px,黑体";
+				context.strokeStyle = "#000000";
+				context.strokeText("l l", 10, 50);
+				context.fillStyle = "#864849";
+				context.fillText("l l", 10, 50);
+			}
+			//buff
+			var buff = {
+				x: rand(361, 0),
+				y: -200,
+				w: 39,
+				h: 68,
+				cut: 0,
+				num: true,
+				numX: 10,
+				numY: 10,
+				move: true,
+				draw: function() {
+					context.drawImage(prop, this.cut, 0, this.w, this.h, this.x, this.y, this.w, this.h);
+					if(this.num) {
+						this.x += this.numX;
+						if(this.x >= 361) {
+							this.num = false;
+						}
+					} else {
+						this.x -= this.numX;
+						if(this.x <= 0) {
+							this.num = true;
+						}
+					}
+					this.y += this.numY;
+					this.move = false;
+					if(this.y >= canvas.height) {
+						this.move = true;
+						buff.y = -200;
+						buff.numY = 0;
+					}
+				}
+			}
+			var buffMoveR;
+
+			function buffMove() {
+				if(buff.move) {
+					buffMoveR = rand(500, 0);
+				}
+				if(buffMoveR == 21 || buffMoveR == 233) {
+					buff.cut = 0;
+					buff.numY = 10;
+					buff.draw();
+				}
+				if(buffMoveR == 12) {
+					buff.cut = 39;
+					buff.numY = 10;
+					buff.draw();
+				}
+				//得到buff
+				if(crash2(plane, buff)) {
+					buff.y = canvas.height;
+					if(buff.cut == 0) {
+						bombNum++;
+					} else {
+						doubleBullet = true;
+					}
+				}
+			}
+			//战斗机
+			var plane = {
+					w: 66,
+					h: 82,
+					x: (canvas.width - 66) / 2,
+					y: canvas.height - 82,
+					crash: 66,
+					draw: function() {
+						if(planeBol) {
+							context.drawImage(planeImg, 0, 0, this.w, this.h, this.x, this.y, this.w, this.h);
+							planeBol = false;
+						} else {
+							context.drawImage(planeImg, 66, 0, this.w, this.h, this.x, this.y, this.w, this.h);
+							planeBol = true;
+						}
+					},
+					drawCrash: function() {
+						context.drawImage(planeImg, this.crash, 0, this.w, this.h, this.x, this.y, this.w, this.h);
+						this.crash += 66;
+					}
+				}
+				//战斗机拖拽
+			var planeX = plane.x;
+			var planeY = plane.y;
+			canvas.onmousedown = function(e) {
+				var e = e || window.event;
+				var x = e.offsetX;
+				var y = e.offsetY;
+				if(x >= planeX && x <= planeX + plane.w && y >= planeY && y <= planeY + plane.h) {
+					isDown = true;
+				}
+				if(x >= 0 && x <= 60 && y >= 10 && y <= 60) {
+					if(bol) {
+						clearTimeout(timer);
+						bol = false;
+					} else {
+						main();
+						bol = true;
+					}
+				}
+				//清屏
+				if(x >= 0 && x <= 60 && y >= canvas.height - 50 && y <= canvas.height && bombNum > 0) {
+					bombNum--;
+					enemy1CrashArr = enemy1Arr;
+					enemy1Arr = [];
+					enemy2CrashArr = enemy2Arr;
+					enemy2Arr = [];
+					enemy3CrashArr = enemy3Arr;
+					enemy3Arr = [];
+				}
+			}
+			canvas.onmouseup = function() {
+				isDown = false;
+			}
+			canvas.onmousemove = function(e) {
+					if(!isDown) {
+						return;
+					}
+					var e = e || window.event;
+					var x = e.offsetX;
+					var y = e.offsetY;
+					plane.x = x - plane.w / 2;
+					plane.y = y - plane.h / 2;
+					planeX = plane.x;
+					planeY = plane.y;
+				}
+				//战斗机发射子弹
+			function Bullet1() {
+				this.bulletNum = 0;
+				this.w = 6;
+				this.h = 14;
+				this.x = plane.x + plane.w / 2 - 3;
+				this.y = plane.y - 7;
+			}
+			Bullet1.prototype.draw = function() {
+				context.drawImage(bullet1, this.x, this.y - this.bulletNum);
+				this.bulletNum += 6;
+			}
+
+			function Bullet2() {
+				this.bulletNum = 0;
+				this.w = 48;
+				this.h = 14;
+				this.x = plane.x + plane.w / 2 - 24;
+				this.y = plane.y - 7;
+			}
+			Bullet2.prototype.draw = function() {
+					context.drawImage(bullet2, this.x, this.y - this.bulletNum);
+					this.bulletNum += 6;
+				}
+				//让子弹飞
+			var bulletNum = 0;
+			var bulletArr = [];
+
+			function bulletMove() {
+				bulletNum++;
+				//单发
+				if(bulletNum % 5 == 0 && !doubleBullet) {
+					var bullet = new Bullet1();
+					bullet.draw();
+					bulletArr.push(bullet);
+				}
+				//双发
+				if(bulletNum % 5 == 0 && doubleBullet) {
+					var bullet = new Bullet2();
+					bullet.draw();
+					bulletArr.push(bullet);
+				}
+				for(var i = 0; i < bulletArr.length; i++) {
+					bulletArr[i].draw();
+					if(bulletArr[i].y - bulletArr[i].bulletNum < -bulletArr[i].h) {
+						bulletArr.splice(i, 1);
+						i--;
+					}
+				}
+			}
+			//敌机
+			function Enemy1() {
+				this.enemyNum = 0;
+				this.w = 38;
+				this.h = 34;
+				this.x = rand(362, 0);
+				this.y = -200;
+				this.enemy1Crash = 0;
+				this.crash = 38;
+			}
+			Enemy1.prototype.draw = function() {
+				this.y = -200 + this.enemyNum;
+				context.drawImage(enemyImg1, 0, 0, 38, 34, this.x, this.y, 38, 34);
+				this.enemyNum += 6;
+			}
+			Enemy1.prototype.drawCrash = function() {
+				context.drawImage(enemyImg1, this.crash, 0, 38, 34, this.x, this.y, 38, 34);
+				this.crash += 38;
+			}
+
+			function Enemy2() {
+				this.enemyNum = 0;
+				this.w = 46;
+				this.h = 64;
+				this.x = rand(354, 0);
+				this.y = -200;
+				this.enemy2Crash = 0;
+				this.crash = 46;
+			}
+			Enemy2.prototype.draw = function() {
+				this.y = -200 + this.enemyNum;
+				context.drawImage(enemyImg2, 0, 0, this.w, this.h, this.x, this.y, this.w, this.h);
+				this.enemyNum += 6;
+			}
+			Enemy2.prototype.drawCrash = function() {
+				context.drawImage(enemyImg2, this.crash, 0, this.w, this.h, this.x, this.y, this.w, this.h);
+				this.crash += 46;
+			}
+
+			function Enemy3() {
+				this.enemyNum = 0;
+				this.w = 110;
+				this.h = 164;
+				this.x = rand(290, 0);
+				this.y = -200;
+				this.enemy3Crash = 0;
+				this.crash = 110;
+				this.num = 0;
+			}
+			Enemy3.prototype.draw = function() {
+				this.y = -200 + this.enemyNum;
+				context.drawImage(enemyImg3, 0, 0, this.w, this.h, this.x, this.y, this.w, this.h);
+				this.enemyNum += 6;
+			}
+			Enemy3.prototype.drawCrash = function() {
+					context.drawImage(enemyImg3, this.crash, 0, this.w, this.h, this.x, this.y, this.w, this.h);
+					if(this.num % 110 == 0) {
+						this.crash += this.num;
+					}
+					this.num += 55;
+				}
+				//敌机种类
+			var enemy1Arr = [];
+			var enemy2Arr = [];
+			var enemy3Arr = [];
+			var enemyNum = 0;
+
+			function enemyImg() {
+				enemyNum++;
+				if(enemyNum % 12 == 0) {
+					var r = rand(100, 0);
+					if(r <= 70) {
+						var enemy1 = new Enemy1();
+						enemy1.draw();
+						enemy1Arr.push(enemy1);
+					} else if(r > 70 && r < 97) {
+						var enemy2 = new Enemy2();
+						enemy2.draw();
+						enemy2Arr.push(enemy2);
+					} else if(r >= 97) {
+						var enemy3 = new Enemy3();
+						enemy3.draw();
+						enemy3Arr.push(enemy3);
+					}
+				}
+			}
+			//敌机移动
+			var enemy1CrashArr = [];
+			var enemy2CrashArr = [];
+			var enemy3CrashArr = [];
+
+			function enemyMove() {
+				enemyImg();
+				for(var i = 0; i < enemy1Arr.length; i++) {
+					enemy1Arr[i].draw();
+					if(enemy1Arr[i].y > canvas.height) {
+						enemy1Arr.splice(i, 1);
+						i--;
+					}
+				}
+				for(var i = 0; i < enemy2Arr.length; i++) {
+					enemy2Arr[i].draw();
+					if(enemy2Arr[i].y > canvas.height) {
+						enemy2Arr.splice(i, 1);
+						i--;
+					}
+				}
+				for(var i = 0; i < enemy3Arr.length; i++) {
+					enemy3Arr[i].draw();
+					if(enemy3Arr[i].y > canvas.height) {
+						enemy3Arr.splice(i, 1);
+						i--;
+					}
+				}
+				//敌机击毁动画
+				for(var i = 0; i < enemy1CrashArr.length; i++) {
+					enemy1CrashArr[i].drawCrash();
+					if(enemy1CrashArr[i].crash == 190) {
+						enemy1CrashArr.splice(i, 1);
+						i--;
+					}
+				}
+				for(var i = 0; i < enemy2CrashArr.length; i++) {
+					enemy2CrashArr[i].drawCrash();
+					if(enemy2CrashArr[i].crash == 276) {
+						enemy2CrashArr.splice(i, 1);
+						i--;
+					}
+				}
+				for(var i = 0; i < enemy3CrashArr.length; i++) {
+					enemy3CrashArr[i].drawCrash();
+					if(enemy3CrashArr[i].crash == 1100) {
+						enemy3CrashArr.splice(i, 1);
+						i--;
+					}
+				}
+				//分数
+				score.draw();
+			}
+			//子弹碰撞
+			function crash(obj1, obj2) {
+				var l1 = obj1.x;
+				var r1 = obj1.x + obj1.w;
+				var t1 = obj1.y - obj1.bulletNum;
+				var b1 = obj1.y - obj1.bulletNum + obj1.h;
+
+				var l2 = obj2.x;
+				var r2 = obj2.x + obj2.w;
+				var t2 = obj2.y;
+				var b2 = obj2.y + obj2.h;
+
+				if(r1 > l2 && b1 > t2 && l1 < r2 && t1 < b2) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			function bulletCrash() {
+				for(var i = 0; i < bulletArr.length; i++) {
+					for(var j = 0; j < enemy1Arr.length; j++) {
+						if(crash(bulletArr[i], enemy1Arr[j])) {
+							bulletArr.splice(i, 1);
+							enemy1Arr[j].enemy1Crash++;
+							if(!doubleBullet && enemy1Arr[j].enemy1Crash == 1) {
+								enemy1CrashArr.push(enemy1Arr[j]);
+								enemy1Arr.splice(j, 1);
+								score.score += 100;
+							}
+							if(doubleBullet && enemy1Arr[j].enemy1Crash == 1) {
+								enemy1CrashArr.push(enemy1Arr[j]);
+								enemy1Arr.splice(j, 1);
+								score.score += 100;
+							}
+							i--;
+							break;
+						}
+					}
+				}
+				for(var i = 0; i < bulletArr.length; i++) {
+					for(var j = 0; j < enemy2Arr.length; j++) {
+						if(crash(bulletArr[i], enemy2Arr[j])) {
+							bulletArr.splice(i, 1);
+							enemy2Arr[j].enemy2Crash++;
+							if(!doubleBullet && enemy2Arr[j].enemy2Crash == 3) {
+								enemy2CrashArr.push(enemy2Arr[j]);
+								enemy2Arr.splice(j, 1);
+								score.score += 300;
+							}
+							if(doubleBullet && enemy2Arr[j].enemy2Crash == 2) {
+								enemy2CrashArr.push(enemy2Arr[j]);
+								enemy2Arr.splice(j, 1);
+								score.score += 300;
+							}
+							i--;
+							break;
+						}
+					}
+				}
+				for(var i = 0; i < bulletArr.length; i++) {
+					for(var j = 0; j < enemy3Arr.length; j++) {
+						if(crash(bulletArr[i], enemy3Arr[j])) {
+							bulletArr.splice(i, 1);
+							enemy3Arr[j].enemy3Crash++;
+							if(!doubleBullet && enemy3Arr[j].enemy3Crash == 8) {
+								enemy3CrashArr.push(enemy3Arr[j]);
+								enemy3Arr.splice(j, 1);
+								score.score += 1000;
+							}
+							if(doubleBullet && enemy3Arr[j].enemy3Crash == 6) {
+								enemy3CrashArr.push(enemy3Arr[j]);
+								enemy3Arr.splice(j, 1);
+								score.score += 1000;
+							}
+							i--;
+							break;
+						}
+					}
+				}
+			}
+			//战斗机碰撞
+			function crash2(obj1, obj2) {
+				var l1 = obj1.x;
+				var r1 = obj1.x + obj1.w;
+				var t1 = obj1.y;
+				var b1 = obj1.y + obj1.h;
+
+				var l2 = obj2.x;
+				var r2 = obj2.x + obj2.w;
+				var t2 = obj2.y;
+				var b2 = obj2.y + obj2.h;
+
+				if(r1 > l2 && b1 > t2 && l1 < r2 && t1 < b2) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			var st = false;
+			//gameover
+			function gameOver(){
+				context.strokeStyle = "#CCCCCC";
+				context.lineWidth = 5;
+				context.strokeRect(50,250,300,200);
+				context.fillStyle = "antiquewhite";
+				context.fillRect(50,250,300,200);
+				context.font = "20px 黑体";
+				context.fillStyle = "#000000";
+				context.fillText("游戏结束",150,350);
+			}
+			function planeCrash() {
+				for(var i = 0; i < enemy1Arr.length; i++) {
+					if(crash2(plane, enemy1Arr[i])) {
+						zy = false;
+						enemy1CrashArr = enemy1Arr;
+						enemy1Arr = [];
+						enemy2CrashArr = enemy2Arr;
+						enemy2Arr = [];
+						enemy3CrashArr = enemy3Arr;
+						enemy3Arr = [];
+						setTimeout(function() {
+							st = true;
+						}, 600);
+					}
+				}
+				for(var i = 0; i < enemy2Arr.length; i++) {
+					if(crash2(plane, enemy2Arr[i])) {
+						zy = false;
+						enemy1CrashArr = enemy1Arr;
+						enemy1Arr = [];
+						enemy2CrashArr = enemy2Arr;
+						enemy2Arr = [];
+						enemy3CrashArr = enemy3Arr;
+						enemy3Arr = [];
+						setTimeout(function() {
+							st = true;
+						}, 600);
+					}
+				}
+				for(var i = 0; i < enemy3Arr.length; i++) {
+					if(crash2(plane, enemy3Arr[i])) {
+						zy = false;
+						enemy1CrashArr = enemy1Arr;
+						enemy1Arr = [];
+						enemy2CrashArr = enemy2Arr;
+						enemy2Arr = [];
+						enemy3CrashArr = enemy3Arr;
+						enemy3Arr = [];
+						setTimeout(function() {
+							st = true;
+						}, 600);
+					}
+				}
+			}
+
+			function stop() {
+				if(st) {
+					clearTimeout(timer);
+				}
+			}
+			//主函数
+			function main() {
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				bgImgMove();
+				bulletMove();
+				enemyMove();
+				bulletCrash();
+				buffMove();
+				bomb();
+				planeCrash();
+				if(zy) {
+					plane.draw();
+				} else {
+					plane.drawCrash();
+					gameOver();
+				}
+				timer = setTimeout(main, 30);
+				stop();
+			}
+			main();
+		}
+		loadingImg(imgArr);
+	</script>
+
+</html>

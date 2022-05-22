@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>mac时钟</title>
+	<style>
+		#wrap{
+			height:111px;
+			width:111px;
+			position:absolute;
+			left:0;
+			top:0;
+			right:0;
+			bottom:0;
+			margin:auto;
+			border:5px solid black;
+			border-radius:90px;
+			background-image: url("../source/表盘.png");
+			background-color:#e6e6e6;
+		}
+		#clock{
+			position:absolute;
+			top:50%;
+			left:50%;
+			margin-left:-7px;
+			margin-top:-7px;
+			width:15px;
+			height:15px;
+			border-radius:15px;
+			background-color:black;
+			transform:rotate(-90deg);
+		}
+		#clock div{
+			position:absolute;
+			transform-origin:left center;
+			top:3px;
+			left:3px;
+		}
+		#h{
+			width:25px;
+			height:3px;
+			background-color:black;
+		}
+		#m{
+			width:40px;
+			height:2px;
+			background-color:yellow;
+		}
+		#s{
+			width:50px;
+			height:1px;
+			background-color:red;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<div id="clock">
+			<div id = "h"></div>
+			<div id = "m"></div>
+			<div id = "s"></div>
+		</div>
+	</div>
+</body>
+	<script>
+		var h = document.querySelector("#h");
+		var m = document.querySelector("#m");
+		var s = document.querySelector("#s");
+
+		
+
+		setInterval(function(){
+			var nowTime = new Date();
+			var h1 = nowTime.getHours();
+			var m1 = nowTime.getMinutes();
+			var s1 = nowTime.getSeconds();
+			var s2 = s1*6;
+			s.style.transform = "rotate("+s2+"deg)";
+			var m2 = m1*6;
+			m.style.transform = "rotate("+m2+"deg)";
+			var h2 = h1*30;
+			h.style.transform = "rotate("+h2+"deg)";
+		},30);
+		
+	</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

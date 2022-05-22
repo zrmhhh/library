@@ -1,0 +1,163 @@
+*{
+	margin:0;
+	padding:0;
+}
+#main{
+	width:343px;
+	height:480px;
+	background-image:url("../img/bg.jpg");
+	position:relative;
+	margin:0 auto;
+	overflow:hidden;
+}
+#score{
+	position:absolute;
+	z-index: 10;
+	left:140px;
+	color:white;
+	font-size: 50px;
+}
+#fb{
+	position:absolute;
+	top:100px;
+	left:53px;
+	color:red;
+	text-shadow:10px 10px 10px black;
+	display:none;
+}
+#ready{
+	position:absolute;
+	top:100px;
+	left:90px;
+	color:red;
+	text-shadow:10px 10px 10px black;
+	/*display:none;*/
+}
+#start{
+	width:85px;
+	height:29px;
+	background-image:url("../img/start.jpg");
+	position:absolute;
+	left:110px;
+	top:260px;
+	display:none;
+}
+#bird{
+	position:absolute;
+	top:250px;
+	left:50px;
+	/*transition:all 0.2s;*/
+}
+
+
+
+
+
+
+
+#slider{
+	width:343px;
+	overflow:hidden;
+	height:14px;
+	position:absolute;
+	bottom:43px;
+}
+#slider div{
+	background-image: url("../img/slider.jpg");
+	position:absolute;
+	width:343px;
+	height:14px;
+}
+#slider1{
+	
+}
+#slider2{
+	left:343px;
+}
+
+
+//障碍物
+#pipe{
+	width:343px;
+	height:480px;
+	position: relative;
+	overflow:hidden;
+}
+
+#pipe ul{
+	width:62px;
+	height:423px;
+	position:absolute;
+	list-style-type:none;
+}
+
+#pipe ul:nth-of-type(1){
+	left:343px;
+}
+#pipe ul:nth-of-type(2){
+	left:515px;
+}
+#pipe ul:nth-of-type(3){
+	left:697px;
+}
+
+#pipe ul li{
+	width:62px;height:60px;
+	position:absolute;
+}
+#pipe ul li:nth-of-type(1){
+	top:0;
+	background-image: url("../img/up_pipe.png"),url("../img/up_mod.png");
+	background-repeat:no-repeat,repeat;
+	background-position:bottom,top;
+}
+#pipe ul li:nth-of-type(2){
+	bottom:0;
+	background-image: url("../img/down_pipe.png"),url("../img/down_mod.png");
+	background-repeat:no-repeat,repeat;
+	background-position:top,bottom;
+}
+
+/*游戏结束*/
+#yz{
+	width:343px;
+	height:480px;
+	background-color:rgba(221 218 147 0.3);
+	position:relative;
+	z-index: 100;
+	margin:0 auto;
+	top:-480px;
+	display:none;
+}
+#go{
+	position:absolute;
+	z-index: 100;
+	top:100px;
+	left:53px;
+	color:red;
+	text-shadow:10px 10px 10px black;
+}
+#medal{
+	background-image: url("../img/message.jpg");
+	width:269px;
+	height:135px;
+	position:absolute;
+	top:170px;
+	left:50px;
+}
+#fs{
+	position: absolute;
+	/*left:231px;*/
+	right:25px;
+	top:42px;
+	font-size:24px;
+	color:white;
+}
+#ok{
+	background-image:url("../img/ok.jpg");
+	width:96px;
+	height:33px;
+	position: absolute;
+	bottom:90px;
+	left:130px;
+}

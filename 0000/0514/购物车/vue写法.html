@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <script src="./js/vue.min.js"></script>
+</head>
+<body>
+    <div class="wrap" id="app">
+        <ul class="wrap-child goods">
+            <li v-for="(goodsItem, key) in goodsList" :key="key">
+                <p>商品名称：{{ goodsItem.name }}</p>
+                <p>价格：{{ goodsItem.price }}</p>
+                <p>库存：{{ goodsItem.stock }}</p>
+
+                <button @click="onBuyGoods(goodsItem)">购买</button>
+            </li>
+        </ul>
+        <ul class="wrap-child cart">
+            <li v-for="(cartItem, key) in cartList" :key="key">
+                <p>商品名称：{{ cartItem.name }}</p>
+                <p>价格：{{ cartItem.price }}</p>
+                <p>购买数量：{{ cartItem.count }}</p>
+
+                <div>
+                    <button>-</button>
+                    <button>+</button>
+                </div>
+            </li>
+
+            <div class="price-total">
+                总价：0元
+            </div>
+        </ul>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: function(){
+            return {
+                goodsList: [
+                    {
+                        name: '苹果',
+                        price: 5,
+                        stock: 99
+                    }, {
+                        name: '香蕉',
+                        price: 8,
+                        stock: 99
+                    }, {
+                        name: '橘汁',
+                        price: 8,
+                        stock: 99
+                    }
+                ],
+                cartList: []
+            }
+        },
+        methods: {
+            onBuyGoods(goodsItem) {
+                let tempList = this.cartList.map(v => v.name)
+                let cartIndex = tempList.indexOf(goodsItem.name)
+                if (cartIndex === -1) {
+                    this.cartList.push({
+                        name: goodsItem.name,
+                        price: goodsItem.price,
+                        count: 1
+                    })
+                } else {
+                    this.cartList[cartIndex].count ++
+                }
+            }
+        }
+    })
+</script>
+</html>

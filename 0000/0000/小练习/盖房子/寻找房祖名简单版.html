@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		#box{
+			width:400px;
+			height:500px;
+			background-color: #ccc;
+			border:1px solid red;
+			position:relative;
+			margin:50px auto;
+		}
+		#btn{
+			width:50px;
+			height:40px;
+			position: absolute;
+			left:50%;
+			margin-left:-25px;
+			top:50px;
+			border:0;
+			background-color: red;
+			color:white;
+		}
+		#wrap{
+			width:80%;
+			position: absolute;
+			left:10%;
+			top:150px;
+		}
+		#wrap img{
+			width:100%;
+			margin-left:10px;
+			margin-top:10px;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<input type="button" value = "开始" id = "btn">
+		<div id="wrap">
+			<img src="img/2.png" alt="">
+		</div>
+	</div>
+</body>
+	<script>
+		
+	var btn = document.getElementById("btn");
+	var wrap = document.getElementById("wrap");
+
+	var baseNum = 1;
+	var margin = 10;
+	function rand(max,min){
+		return parseInt(Math.random() * (max - min + 1) + min);
+	}
+
+	function createImg(){
+		baseNum ++;
+		var imgNum = Math.pow(baseNum,2);//每次需要创建的图片数
+		//在wrap插入图片
+		var imgWidth = (wrap.offsetWidth - baseNum * margin) / baseNum;
+		for(var i = 0; i < imgNum; i ++){
+			var imgObj = document.createElement("img");
+			imgObj.src = "img/1.png";
+			imgObj.style.width = imgWidth + "px";
+			wrap.appendChild(imgObj);
+		}
+
+		var r = rand(imgNum - 1,0)
+		var nowImgs = wrap.children;
+		nowImgs[r].src = "img/2.png";
+		nowImgs[r].onclick = function(){
+			wrap.innerHTML = "";
+			createImg();
+		}
+	}
+
+
+	var clickBol = false;
+	btn.onclick = function(){
+		if(clickBol){
+			return;
+		}
+		clickBol = true;
+		//清空wrap里的内容
+		wrap.innerHTML = "";
+		createImg();
+	}
+	
+
+
+	</script>
+</html>
