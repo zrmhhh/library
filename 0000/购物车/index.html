@@ -5,10 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>购物车</title>
+    <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/index.css">
     <script src="./js/vue.min.js"></script>
 </head>
 <body>
+    <div style="padding: 20px 20px 0px 20px;">
+        <a href="/login.html" style="margin-right: 20px;">退出登录</a>
+        <a href="/coupon.html">优惠券</a>
+    </div>
     <div id="app">
         <ul class="goods">
             <li v-for="(goodsItem, key) in goodsList" :key="key">
@@ -34,7 +39,12 @@
             </li>
 
             <div class="cart-total">
-                总价：{{ priceTotal }}
+                <p style="margin-bottom: 20px;">总价：{{ priceTotal }}</p>
+
+                <div>
+                    <button style="padding: 2px 10px; cursor: pointer;">清空购物车</button>
+                    <button style="padding: 2px 10px; cursor: pointer;">结算</button>
+                </div>
             </div>
         </ul>
     </div>

@@ -1,1 +1,1 @@
-{"name":"apple","price":"9","stock":"55"}
+[{"id":1000,"name":"苹果","price":8,"stock":9},{"id":1001,"name":"香蕉","price":9,"stock":11},{"id":1002,"name":"iphone6","price":3999,"stock":5},{"id":1003,"name":"iphoneX","price":4999,"stock":2}]

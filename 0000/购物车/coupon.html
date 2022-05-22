@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>优惠券列表</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <style>
+        #coupon {
+            padding: 20px;
+        }
+        ul li {
+            list-style: none;
+            height: 68px;
+            line-height: 68px;
+            background-color: #ccc;
+            padding: 0px 15px;
+            border-radius: 15px;
+            margin-bottom: 18px;
+            cursor: pointer;
+        }
+        ul li span {
+            float: right;
+            color: blue;
+        }
+        ul li span.get {
+            color: red;
+        }
+    </style>
+    <script src="./js/ajax.js"></script>
+    <script src="./js/vue.min.js"></script>
+</head>
+<body>
+    <div style="padding: 20px 20px 0px 20px;">
+        <a href="/" style="margin-right: 20px;">购物</a>
+        <a href="/my-coupon.html">我的优惠券</a>
+    </div>
+    <div id="coupon">
+        <ul>
+            <li v-for="(couponItem, key) in couponList" :key="key" @click="onGet(couponItem)">
+                满{{ couponItem.fill }}元减{{ couponItem.minus }}元
+                <span :class="{get: couponItem.isGet}">{{ couponItem.isGet ? '已领取' : '立即领取' }}</span>
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el: '#coupon',
+        data(){
+            return {
+                couponList: [
+                    // {
+                    //     id: 1,
+                    //     isGet: false,
+                    //     fill: 30,
+                    //     minus: 5
+                    // }, {
+                    //     id: 2,
+                    //     isGet: true,
+                    //     fill: 99,
+                    //     minus: 20
+                    // }
+                ]
+            }
+        },
+        created(){
+            this.queryCouponList()
+        },     
+        methods: {
+            onGet(couponItem) {
+                if (couponItem.isGet) {
+                    alert('已领取该优惠券！')
+                } else {
+                    ajax('post', '/proxy/coupon/get', {
+                        id: Number(couponItem.id)
+                    }, (res) => {
+                        let resData = JSON.parse(res)
+                        alert(resData.message)
+                        this.queryCouponList()
+                    })
+                }
+            },
+            queryCouponList(){
+                ajax('get', '/proxy/coupon/list', {}, (res) => {
+                    this.couponList = JSON.parse(res).data
+                })
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,1 @@
+[{"id":1000,"isGet":false,"fill":30,"minus":5},{"id":1001,"isGet":false,"fill":99,"minus":20},{"id":1002,"isGet":true,"fill":199,"minus":50},{"id":1003,"isGet":false,"fill":299,"minus":80},{"id":1004,"isGet":true,"fill":1000,"minus":200}]

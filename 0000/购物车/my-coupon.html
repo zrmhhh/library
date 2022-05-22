@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的优惠券</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #coupon {
+            padding: 20px;
+        }
+        ul li {
+            list-style: none;
+            height: 68px;
+            line-height: 68px;
+            background-color: #ccc;
+            padding: 0px 15px;
+            border-radius: 15px;
+            margin-bottom: 18px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="./js/ajax.js"></script>
+    <script src="./js/vue.min.js"></script>
+</head>
+<body>
+    <div style="padding: 20px 20px 0px 20px;">
+        <a href="/" style="margin-right: 20px;">购物</a>
+        <a href="/coupon.html">优惠券领取</a>
+    </div>
+    <div id="coupon">
+        <ul>
+            <li v-for="(couponItem, key) in couponList" :key="key" @click="onGet(couponItem)">
+                满{{ couponItem.fill }}元减{{ couponItem.minus }}元
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el: '#coupon',
+        data(){
+            return {
+                couponList: [
+                    // {
+                    //     id: 1,
+                    //     fill: 30,
+                    //     minus: 5
+                    // }
+                ]
+            }
+        },
+        created(){
+            ajax('get', '/proxy/coupon/my/query', {}, (res) => {
+                this.couponList = JSON.parse(res).data
+            })
+        }
+    })
+</script>
+</html>
