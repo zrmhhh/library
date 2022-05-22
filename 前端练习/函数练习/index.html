@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数练习 函数调用</title>
+</head>
+<body>
+    <!-- <div id="zhao">
+        <p>{{orderId}}</p>
+        <span>{{no}}</span>
+        <div>
+            <span>{{orderId}}</span>
+        </div>
+    </div> -->
+    周子琪生日倒计时：<div id="zhao"></div>
+</body>
+<!-- <script src="./js/parse-template.js"></script> -->
+<script src="./js/countdown.js"></script>
+<script>
+    let el = document.getElementById('zhao')
+    let tim = Date.parse(new Date('2022-08-13 00:00:00'))
+    setInterval(() => {
+        let timeObj = countdownFn(tim)
+        el.innerHTML = `${timeObj.days}天${timeObj.hours}小时${timeObj.minutes}分${timeObj.seconds}秒`
+    }, 1000)
+
+    // testFn()
+    // function testFn(){
+    //     requestAnimationFrame(() => {
+    //         let timeObj = countdownFn(tim)
+    //         el.innerHTML = `${timeObj.days}天${timeObj.hours}小时${timeObj.minutes}分${timeObj.seconds}秒`
+    //         testFn()
+    //     })
+    // }
+
+    // let obj = {
+    //     orderId: 12341234,
+    //     no: 'asdfsdfsdf'
+    // }
+    // renderDataByTemplate(el, obj)
+</script>
+</html>
